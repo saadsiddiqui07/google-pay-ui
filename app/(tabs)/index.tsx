@@ -1,6 +1,8 @@
 import ActionPill from "@/components/action-pill";
 import HomeHeader from "@/components/home-header";
+import PeopleGrid from "@/components/people-grid";
 import QuickAction from "@/components/quick-action";
+import { ACTION_PILLS, PEOPLE, QUICK_ACTIONS } from "@/constants/home-data";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
@@ -10,7 +12,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
         <HomeHeader />
 
         <View
@@ -20,30 +22,15 @@ export default function HomeScreen() {
             marginTop: 24,
           }}
         >
-          <QuickAction
-            icon="qrcode-scan"
-            firstLineText="Scan any"
-            secondLineText="QR code"
-            onPress={() => {}}
-          />
-          <QuickAction
-            icon="send"
-            firstLineText="Pay"
-            secondLineText="anyone"
-            onPress={() => {}}
-          />
-          <QuickAction
-            icon="bank"
-            firstLineText="Bank"
-            secondLineText="transfer"
-            onPress={() => {}}
-          />
-          <QuickAction
-            icon="cellphone-charging"
-            firstLineText="Mobile"
-            secondLineText="recharge"
-            onPress={() => {}}
-          />
+          {QUICK_ACTIONS.map((action, index) => (
+            <QuickAction
+              key={index}
+              icon={action.icon}
+              firstLineText={action.firstLineText}
+              secondLineText={action.secondLineText}
+              onPress={() => {}}
+            />
+          ))}
         </View>
 
         <ScrollView
@@ -52,31 +39,20 @@ export default function HomeScreen() {
           style={{ marginTop: 24, marginHorizontal: -16 }}
           contentContainerStyle={{ paddingHorizontal: 16 }}
         >
-          <ActionPill
-            icon="rocket-launch"
-            iconColor="#4285F4"
-            title="UPI Lite"
-            subtitle="Activate"
-            subtitleColor="#4285F4"
-            onPress={() => {}}
-          />
-          <ActionPill
-            icon="trophy"
-            iconColor="#FBBC04"
-            title="Rewards"
-            subtitle="New"
-            subtitleColor={theme.colors.onSurface}
-            onPress={() => {}}
-          />
-           <ActionPill
-            icon="contactless-payment"
-            iconColor="#34A853"
-            title="UPI ID"
-            subtitle="saadsiddiqui927@okicici"
-            subtitleColor={theme.colors.onSurface}
-            onPress={() => {}}
-          />
+          {ACTION_PILLS.map((pill, index) => (
+            <ActionPill
+              key={index}
+              icon={pill.icon}
+              iconColor={pill.iconColor}
+              title={pill.title}
+              subtitle={pill.subtitle}
+              subtitleColor={pill.subtitleColor || theme.colors.onSurface}
+              onPress={() => {}}
+            />
+          ))}
         </ScrollView>
+
+        <PeopleGrid people={PEOPLE} />
       </ScrollView>
     </View>
   );
