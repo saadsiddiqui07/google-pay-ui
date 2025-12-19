@@ -140,7 +140,7 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 28,
+    // marginTop: 28, // Handled by parent gap
   },
   header: {
     marginBottom: 16,

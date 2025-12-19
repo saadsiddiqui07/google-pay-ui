@@ -7,7 +7,7 @@ import { Text } from 'react-native-paper';
 export default function OffersRewards() {
 
   return (
-    <View style={{ marginTop: 24 }}>
+    <View>
       <Text variant="titleLarge" style={{ marginBottom: 16, fontWeight: 'bold' }}>
         Offers & rewards
       </Text>

@@ -14,7 +14,7 @@ export default function ManageMoney() {
   const theme = useTheme();
 
   return (
-    <View style={{ marginTop: 24 }}>
+    <View>
       <Text
         variant="titleLarge"
         style={{ marginBottom: 16, fontWeight: "bold", color: theme.colors.onBackground }}
