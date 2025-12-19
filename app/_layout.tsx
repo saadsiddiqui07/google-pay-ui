@@ -22,18 +22,12 @@ const gpayLightTheme = {
     outline: '#DADCE0',
     onBackground: '#202124',   // Primary text
     onSurface: '#202124',
+    onSurfaceVariant: '#5F6368',
     onPrimary: '#FFFFFF',
 
     error: '#EA4335',          // Google Red
     onError: '#FFFFFF',
-
-    // Add missing properties that might be needed, mapping to reasonable defaults if not provided
-    // success and warning are not standard MD3 properties but useful to have in custom theme
   },
-  // Custom colors can be added to the theme object if typed correctly, 
-  // but for now we stick to standard MD3 structure where possible.
-  // We can add custom properties if we extend the theme type, 
-  // but for simplicity in JS/Standard TS setup, we'll keep it simple.
 };
 
 // Define the custom Dark Theme
@@ -84,6 +78,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+          <Stack.Screen name="search" options={{ headerShown: false, animation: 'fade_from_bottom' }} />
         </Stack>
         <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </NavigationThemeProvider>
