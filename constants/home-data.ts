@@ -93,3 +93,18 @@ export const PEOPLE = [
   { name: 'Frank', image: 'https://i.pravatar.cc/150?u=Frank' },
   { name: 'Grace', image: null },
 ];
+
+export const MANAGE_MONEY_DATA = [
+  {
+    icon: 'speedometer',
+    title: 'Check your CIBIL score',
+  },
+  {
+    icon: 'history',
+    title: 'See transaction history',
+  },
+  {
+    icon: 'bank-outline',
+    title: 'Check bank balance',
+  },
+];
