@@ -43,6 +43,38 @@ export const ACTION_PILLS = [
   },
 ];
 
+export const OFFERS_DATA = [
+  {
+    icon: 'trophy',
+    title: 'Rewards',
+    color: '#FBBC04', // Yellowish
+    iconColor: '#FFFFFF',
+    image: 'https://cdn-icons-png.flaticon.com/512/3112/3112946.png', // Placeholder or use icon
+    isImage: false,
+  },
+  {
+    icon: 'tag',
+    title: 'Offers',
+    color: '#EA4335', // Reddish
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'cellphone-link',
+    title: 'Referrals',
+    color: '#4285F4', // Blueish
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'party-popper',
+    title: 'My Squad',
+    color: '#9334E6', // Purpleish
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+];
+
 export const PEOPLE = [
   { name: 'Tariq', image: 'https://i.pravatar.cc/150?u=Tariq' },
   { name: 'Nuri', image: 'https://i.pravatar.cc/150?u=Nuri' },

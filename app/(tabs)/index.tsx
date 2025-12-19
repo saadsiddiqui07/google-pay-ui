@@ -1,5 +1,6 @@
 import ActionPill from "@/components/action-pill";
 import HomeBanner from "@/components/home-banner";
+import OffersRewards from "@/components/offers-rewards";
 import PeopleGrid from "@/components/people-grid";
 import QuickAction from "@/components/quick-action";
 import { ACTION_PILLS, PEOPLE, QUICK_ACTIONS } from "@/constants/home-data";
@@ -52,6 +53,8 @@ export default function HomeScreen() {
           </ScrollView>
 
           <PeopleGrid people={PEOPLE} />
+          
+          <OffersRewards />
         </View>
       </ScrollView>
     </View>
