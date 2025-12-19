@@ -38,8 +38,8 @@ export const ACTION_PILLS = [
   {
     icon: 'shield-check',
     iconColor: '#34A853',
-    title: 'UPI Safety',
-    subtitle: 'Tips',
+    title: 'UPI ID',
+    subtitle: 'saadsiddiqui@okicici',
   },
 ];
 

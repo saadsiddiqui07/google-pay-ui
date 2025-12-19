@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
-import { LayoutAnimation, Platform, StyleSheet, TouchableOpacity, UIManager, View } from 'react-native';
-import { Avatar, Icon, Text, useTheme } from 'react-native-paper';
+import React, { useState } from "react";
+import {
+  LayoutAnimation,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from "react-native";
+import { Avatar, Text, useTheme } from "react-native-paper";
 
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+// if (
+//   Platform.OS === "android" &&
+//   UIManager.setLayoutAnimationEnabledExperimental
+// ) {
+//   UIManager.setLayoutAnimationEnabledExperimental(true);
+// }
 
 interface Person {
   name: string;
@@ -27,7 +32,7 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
   // Or: Just show all items and append "Less" at the end.
   // The requirement: "animates to show more 7 contacts".
   // So we show 7 initially.
-  
+
   const toggleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpanded(!expanded);
@@ -37,19 +42,26 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
 
   const renderPerson = (person: Person, index: number) => {
     const isImageAvailable = !!person.image;
-    
+
     // Get initials for avatar if no image
     const initials = person.name.charAt(0).toUpperCase();
 
     // Randomize avatar color for variety if no image, or use a consistent hash
     // For simplicity, alternating colors based on index
-    const avatarColors = ['#8AB4F8', '#F28B82', '#81C995', '#FDD663', '#F06292', '#BA68C8'];
+    const avatarColors = [
+      "#8AB4F8",
+      "#F28B82",
+      "#81C995",
+      "#FDD663",
+      "#F06292",
+      "#BA68C8",
+    ];
     const backgroundColor = avatarColors[index % avatarColors.length];
-    
-    // Text color on colored avatar should be dark or white depending on contrast. 
+
+    // Text color on colored avatar should be dark or white depending on contrast.
     // GPay usually uses white text on dark/vibrant backgrounds or dark text on light backgrounds.
     // Let's use white text for simplicity on these vibrant colors.
-    const textColor = '#FFFFFF';
+    const textColor = "#FFFFFF";
 
     return (
       <View key={index} style={styles.itemContainer}>
@@ -57,17 +69,17 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
           {isImageAvailable ? (
             <Avatar.Image size={56} source={{ uri: person.image! }} />
           ) : (
-            <Avatar.Text 
-              size={56} 
-              label={initials} 
-              style={{ backgroundColor }} 
+            <Avatar.Text
+              size={56}
+              label={initials}
+              style={{ backgroundColor }}
               color={textColor}
-              labelStyle={{ fontSize: 24 }}
+              labelStyle={{ fontSize: 28 }}
             />
           )}
         </View>
         <Text
-          variant="labelMedium"
+          variant="titleSmall"
           style={[styles.name, { color: theme.colors.onBackground }]}
           numberOfLines={1}
         >
@@ -78,8 +90,8 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
   };
 
   const renderToggleButton = () => {
-    const icon = expanded ? 'chevron-up' : 'chevron-down';
-    const label = expanded ? 'Less' : 'More';
+    const icon = expanded ? "chevron-up" : "chevron-down";
+    const label = expanded ? "Less" : "More";
 
     return (
       <TouchableOpacity
@@ -87,8 +99,17 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
         onPress={toggleExpand}
         style={styles.itemContainer}
       >
-        <View style={[styles.avatarContainer, { backgroundColor: theme.dark ? '#303134' : '#F1F3F4', borderWidth: 1, borderColor: theme.colors.outline }]}>
-          <Icon source={icon} size={32} color={theme.colors.primary} />
+        <View style={styles.avatarContainer}>
+          <Avatar.Icon
+            size={56}
+            icon={icon}
+            color={theme.colors.primary}
+            style={{
+              backgroundColor: theme.dark ? "#303134" : "#F1F3F4",
+              borderWidth: 1,
+              borderColor: theme.colors.outline,
+            }}
+          />
         </View>
         <Text
           variant="labelMedium"
@@ -103,7 +124,10 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
 
   return (
     <View style={styles.container}>
-      <Text variant="titleLarge" style={[styles.header, { color: theme.colors.onBackground }]}>
+      <Text
+        variant="titleLarge"
+        style={[styles.header, { color: theme.colors.onBackground }]}
+      >
         People
       </Text>
       <View style={styles.grid}>
@@ -116,21 +140,21 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 24,
+    marginTop: 28,
   },
   header: {
     marginBottom: 16,
-    fontWeight: '400',
-  },
+    fontWeight:'bold'
+   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     // marginHorizontal: -8, // Compensate for padding in items? No, explicitly justify
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   itemContainer: {
-    width: '22%', // 4 items per row approx
-    alignItems: 'center',
+    width: "22%", // 4 items per row approx
+    alignItems: "center",
     marginBottom: 24,
   },
   avatarContainer: {
@@ -139,6 +163,7 @@ const styles = StyleSheet.create({
     // overflow: 'hidden', // Not needed for Avatar component usually
   },
   name: {
-    textAlign: 'center',
+    textAlign: "center",
+    fontWeight: "700",
   },
 });
