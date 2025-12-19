@@ -17,7 +17,7 @@ export default function ManageMoney() {
     <View style={{ marginTop: 24 }}>
       <Text
         variant="titleLarge"
-        style={{ marginBottom: 16, fontWeight: "500" }}
+        style={{ marginBottom: 16, fontWeight: "bold", color: theme.colors.onBackground }}
       >
         Manage your money
       </Text>
@@ -35,25 +35,25 @@ export default function ManageMoney() {
           style={[
             styles.card,
             {
-              backgroundColor: theme.dark ? "#5F6368" : "#DADCE0",
+              backgroundColor: theme.colors.inverseOnSurface,
               width: CARD_WIDTH,
             },
           ]}
           activeOpacity={0.8}
         >
-          <Icon source="script-text-outline" size={24} color="#A8C7FA" />
+          <Icon source="script-text-outline" size={24} color={theme.colors.primary} />
           <Text
             variant="titleMedium"
-            style={{ marginTop: 12, fontWeight: "500", color: "#FFFFFF" }}
+            style={{ marginTop: 12, fontWeight: "500", color: theme.colors.onSurface }}
           >
             Personal loan
           </Text>
-          <Text variant="bodySmall" style={{ marginTop: 4, color: "#C4C7C5" }}>
+          <Text variant="bodySmall" style={{ marginTop: 4, color: theme.colors.onSurfaceVariant }}>
             Up to ₹10 lakh, instant approval
           </Text>
           <Text
             variant="labelLarge"
-            style={{ marginTop: 16, color: "#A8C7FA" }}
+            style={{ marginTop: 16, color: theme.colors.primary }}
           >
             Apply now
           </Text>
@@ -64,25 +64,25 @@ export default function ManageMoney() {
           style={[
             styles.card,
             {
-              backgroundColor: theme.colors.surfaceDisabled,
+              backgroundColor: theme.colors.inverseOnSurface,
               width: CARD_WIDTH,
             },
           ]}
           activeOpacity={0.8}
         >
-          <Icon source="gold" size={24} color="#A8C7FA" />
+          <Icon source="gold" size={24} color={theme.colors.primary} />
           <Text
             variant="titleMedium"
-            style={{ marginTop: 12, fontWeight: "500", color: "#FFFFFF" }}
+            style={{ marginTop: 12, fontWeight: "500", color: theme.colors.onSurface }}
           >
             Gold loan
           </Text>
-          <Text variant="bodySmall" style={{ marginTop: 4, color: "#C4C7C5" }}>
+          <Text variant="bodySmall" style={{ marginTop: 4, color: theme.colors.onSurfaceVariant }}>
             Interest rate starting at 0.96% monthly
           </Text>
           <Text
             variant="labelLarge"
-            style={{ marginTop: 16, color: "#A8C7FA" }}
+            style={{ marginTop: 16, color: theme.colors.primary }}
           >
             Apply now
           </Text>
@@ -98,7 +98,7 @@ export default function ManageMoney() {
             activeOpacity={0.7}
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon source={item.icon} size={24} color="#A8C7FA" />
+              <Icon source={item.icon} size={24} color={theme.colors.primary} />
               <Text
                 variant="bodyLarge"
                 style={{
