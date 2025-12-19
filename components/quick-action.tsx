@@ -6,7 +6,7 @@ const { width } = Dimensions.get("window");
 const NUM_COLUMNS = 4;
 const PADDING = 32; // 16 * 2 (horizontal padding from the parent container)
 const ITEM_WIDTH = (width - PADDING) / NUM_COLUMNS;
-const ICON_CONTAINER_SIZE = ITEM_WIDTH * 0.75;
+const ICON_CONTAINER_SIZE = ITEM_WIDTH * 0.70;
 const ICON_SIZE = ICON_CONTAINER_SIZE * 0.5;
 // const BORDER_RADIUS = ICON_CONTAINER_SIZE / 2; // Make it circular by default or controlled? Original was roughly circular but borderRadius=16 on 64 size. Here it is dynamic. Let's make it fully circular if requested or keep as is.
 // Original was 64 size, 16 radius -> 1/4.
