@@ -1,4 +1,5 @@
 import ActionPill from "@/components/action-pill";
+import BillsRecharges from "@/components/bills-recharges";
 import HomeBanner from "@/components/home-banner";
 import ManageMoney from "@/components/manage-money";
 import OffersRewards from "@/components/offers-rewards";
@@ -53,6 +54,8 @@ export default function HomeScreen() {
           </ScrollView>
 
           <PeopleGrid people={PEOPLE} />
+
+          <BillsRecharges />
           
           <OffersRewards />
 

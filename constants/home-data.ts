@@ -76,6 +76,70 @@ export const OFFERS_DATA = [
   },
 ];
 
+export const BILLS_AND_RECHARGES_DATA = [
+  {
+    icon: 'alpha-a-circle',
+    title: 'Airtel',
+    subtitle: 'Prepaid',
+    color: '#E40000',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'alpha-v-circle',
+    title: 'Vi Prepaid',
+    color: '#E30613',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'alpha-j-circle',
+    title: 'Jio Prepaid',
+    color: '#0F3CC9',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'cellphone-charging',
+    title: 'Mobile',
+    subtitle: 'recharge',
+    color: '#0B57CF',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'television-classic',
+    title: 'DTH / Cable',
+    subtitle: 'TV',
+    color: '#0B57CF',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'lightbulb-outline',
+    title: 'Electricity',
+    color: '#0B57CF',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'credit-card-outline',
+    title: 'Credit',
+    subtitle: 'cards',
+    color: '#0B57CF',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+  {
+    icon: 'cellphone-text',
+    title: 'Postpaid',
+    subtitle: 'mobile',
+    color: '#0B57CF',
+    iconColor: '#FFFFFF',
+    isImage: false,
+  },
+];
+
 export const PEOPLE = [
   { name: 'Tariq', image: 'https://i.pravatar.cc/150?u=Tariq' },
   { name: 'Nuri', image: 'https://i.pravatar.cc/150?u=Nuri' },

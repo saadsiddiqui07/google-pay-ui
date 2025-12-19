@@ -95,6 +95,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#A8C7FA',
   },
+  notificationTag: {
+    position: 'absolute',
+    top: -8,
+    backgroundColor: '#0B57CF',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 10,
+    zIndex: 10,
+  },
+  notificationTagText: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
   textContainer: {
     alignItems: 'center',
     width: '100%',
