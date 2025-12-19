@@ -4,29 +4,40 @@ import { Icon, Text, useTheme } from "react-native-paper";
 
 interface QuickActionProps {
   icon: string;
-  label: string;
+  firstLineText: string;
+  secondLineText: string;
   onPress?: () => void;
 }
 
 export default function QuickAction({
   icon,
-  label,
+  firstLineText,
+  secondLineText,
   onPress,
 }: QuickActionProps) {
   const theme = useTheme();
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={styles.container}>
       <View style={[styles.iconContainer, { backgroundColor: "#0B57CF" }]}>
-        <Icon source={icon} size={24} color="#FFFFFF" />
+        <Icon source={icon} size={28} color="#FFFFFF" />
       </View>
-      <Text
-        variant="labelLarge"
-        style={[styles.label, { color: theme.colors.onBackground }]}
-        numberOfLines={2}
-      >
-        {label}
-      </Text>
+      <View style={styles.textContainer}>
+        <Text
+          variant="labelMedium"
+          style={[styles.label, { color: theme.colors.onBackground }]}
+          numberOfLines={1}
+        >
+          {firstLineText}
+        </Text>
+        <Text
+          variant="labelMedium"
+          style={[styles.label, { color: theme.colors.onBackground }]}
+          numberOfLines={1}
+        >
+          {secondLineText}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -44,9 +55,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 8,
   },
+  textContainer: {
+    alignItems: 'center',
+  },
   label: {
     textAlign: "center",
-    lineHeight: 18,
-    fontWeight: "bold",
+    lineHeight: 16,
+    fontWeight: "600",
   },
 });
