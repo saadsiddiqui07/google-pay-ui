@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Card, useTheme } from 'react-native-paper';
+import { Card, Text, useTheme } from 'react-native-paper';
 
 export default function HomeScreen() {
   const theme = useTheme();

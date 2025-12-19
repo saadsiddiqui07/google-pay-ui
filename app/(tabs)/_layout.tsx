@@ -2,6 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { View } from 'react-native';
 import { BottomNavigation, useTheme } from 'react-native-paper';
 
 export default function TabLayout() {
@@ -16,8 +17,11 @@ export default function TabLayout() {
         <BottomNavigation.Bar
           navigationState={state}
           safeAreaInsets={insets}
-          activeColor={theme.colors.primary}
-          inactiveColor="#5f6368"
+          activeColor={theme.dark ? '#D2E3FC' : '#001D35'} // Dark blue for light mode active icon, Light blue for dark mode active icon
+          activeIndicatorStyle={{
+            backgroundColor: theme.dark ? '#004A77' : '#D2E3FC', // Dark blue pill for dark mode, Light blue pill for light mode
+          }}
+          // inactiveColor is omitted to let Paper derive it from theme (onSurfaceVariant)
           onTabPress={({ route, preventDefault }) => {
             const event = navigation.emit({
               type: 'tabPress',
@@ -36,6 +40,22 @@ export default function TabLayout() {
           }}
           renderIcon={({ route, focused, color }) => {
             const { options } = descriptors[route.key];
+            
+            // Custom render for the "You" tab to show Avatar
+            // if (route.name === 'profile') {
+            //    return (
+            //      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            //        <Avatar.Text 
+            //          size={24} 
+            //          label="S" 
+            //          style={{ backgroundColor: '#8E24AA' }} 
+            //          color="white"
+            //          labelStyle={{ fontSize: 14, lineHeight: 24 }}
+            //        />
+            //      </View>
+            //    );
+            // }
+
             if (options.tabBarIcon) {
               return options.tabBarIcon({ focused, color, size: 24 });
             }
@@ -61,6 +81,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, size }) => {
+            // Using filled home icon
             return <MaterialIcons name="home" size={size} color={color} />;
           },
         }}
@@ -70,19 +91,34 @@ export default function TabLayout() {
         options={{
           title: 'Money',
           tabBarIcon: ({ color, size }) => {
-            return <MaterialIcons name="account-balance-wallet" size={size} color={color} />;
+            return (
+              <View style={{ 
+                width: size, 
+                height: size, 
+                borderRadius: size / 2, 
+                borderWidth: 2, 
+                borderColor: color, 
+                alignItems: 'center', 
+                justifyContent: 'center' 
+              }}>
+                 <MaterialIcons name="currency-rupee" size={size - 8} color={color} />
+              </View>
+            );
           },
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color, size }) => {
-            return <MaterialIcons name="account-circle" size={size} color={color} />;
+          title: 'You', // Renamed from Profile
+                tabBarIcon: ({ color, size }) => {
+            // Using filled home icon
+            return <MaterialIcons name="person" size={size} color={color} />;
           },
+          // tabBarIcon is handled in renderIcon for custom Avatar
         }}
       />
+    
     </Tabs>
   );
 }

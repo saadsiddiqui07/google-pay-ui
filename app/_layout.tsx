@@ -1,32 +1,92 @@
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
+import { useColorScheme } from 'react-native';
+import { MD3DarkTheme, MD3LightTheme, PaperProvider, adaptNavigationTheme } from 'react-native-paper';
 import 'react-native-reanimated';
 
-const theme = {
-  ...DefaultTheme,
+// Define the custom Light Theme
+const gpayLightTheme = {
+  ...MD3LightTheme,
   colors: {
-    ...DefaultTheme.colors,
-    primary: '#4285F4',     // Google Blue
-    secondary: '#34A853',   // Google Green (using secondary as accent is deprecated in MD3)
-    background: '#FFFFFF',  // Clean white background
-    surface: '#F1F3F4',     // Light grey for cards
-    error: '#EA4335',       // Google Red
+    ...MD3LightTheme.colors,
+    primary: '#4285F4',        // Google Blue
+    primaryContainer: '#D2E3FC',
+    secondary: '#34A853',      // Google Green
+    secondaryContainer: '#CEEAD6',
+
+    background: '#FFFFFF',     // App background
+    surface: '#F1F3F4',        // Cards / sheets
+    surfaceVariant: '#E8EAED', // Subtle separators
+
+    outline: '#DADCE0',
+    onBackground: '#202124',   // Primary text
+    onSurface: '#202124',
+    onPrimary: '#FFFFFF',
+
+    error: '#EA4335',          // Google Red
+    onError: '#FFFFFF',
+
+    // Add missing properties that might be needed, mapping to reasonable defaults if not provided
+    // success and warning are not standard MD3 properties but useful to have in custom theme
+  },
+  // Custom colors can be added to the theme object if typed correctly, 
+  // but for now we stick to standard MD3 structure where possible.
+  // We can add custom properties if we extend the theme type, 
+  // but for simplicity in JS/Standard TS setup, we'll keep it simple.
+};
+
+// Define the custom Dark Theme
+const gpayDarkTheme = {
+  ...MD3DarkTheme,
+  colors: {
+    ...MD3DarkTheme.colors,
+    primary: '#8AB4F8',         // Light Google Blue
+    primaryContainer: '#1A3A8F',
+    secondary: '#81C995',       // Muted Google Green
+    secondaryContainer: '#0F3D2E',
+
+    background: '#202124',      // Dark background
+    surface: '#303134',         // Cards
+    surfaceVariant: '#3C4043',
+
+    outline: '#5F6368',
+    onBackground: '#E8EAED',    // Light text
+    onSurface: '#E8EAED',
+    onSurfaceVariant: '#DADCE0',
+    onPrimary: '#202124',
+
+    error: '#F28B82',           // Soft red
+    onError: '#202124',
   },
 };
+
+// Adapt React Navigation themes to match Paper themes
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: NavigationDefaultTheme,
+  reactNavigationDark: NavigationDarkTheme,
+  materialLight: gpayLightTheme,
+  materialDark: gpayDarkTheme,
+});
 
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? gpayDarkTheme : gpayLightTheme;
+  const navigationTheme = colorScheme === 'dark' ? DarkTheme : LightTheme;
+
   return (
     <PaperProvider theme={theme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
+      <NavigationThemeProvider value={navigationTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        </Stack>
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      </NavigationThemeProvider>
     </PaperProvider>
   );
 }
