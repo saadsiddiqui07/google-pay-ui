@@ -14,7 +14,7 @@ export default function HomeScreen() {
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
         <HomeBanner />
-        <View style={{ paddingHorizontal: 16, marginTop: -40 }}>
+        <View style={{ paddingHorizontal: 16, marginTop: -20 }}>
           <View
             style={{
               flexDirection: "row",
@@ -35,7 +35,7 @@ export default function HomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            style={{ marginTop: 24, marginHorizontal: -16 }}
+            style={{ marginTop: 28, marginHorizontal: -16 }}
             contentContainerStyle={{ paddingHorizontal: 16 }}
           >
             {ACTION_PILLS.map((pill, index) => (

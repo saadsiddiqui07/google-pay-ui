@@ -20,7 +20,7 @@ export default function QuickAction({
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={styles.container}>
       <View style={[styles.iconContainer, { backgroundColor: "#0B57CF" }]}>
-        <Icon source={icon} size={28} color="#FFFFFF" />
+        <Icon source={icon} size={32} color="#FFFFFF" />
       </View>
       <View style={styles.textContainer}>
         <Text
@@ -45,11 +45,11 @@ export default function QuickAction({
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    width: 80,
+    width: 90,
   },
   iconContainer: {
-    width: 56,
-    height: 56,
+    width: 64,
+    height: 64,
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",

@@ -1,11 +1,21 @@
+import LottieView from "lottie-react-native";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import HomeHeader from "./home-header";
+
+const { height } = Dimensions.get("window");
 
 export default function HomeBanner() {
   return (
-    <View style={styles.container}>
-      <View style={styles.background} />
+    <View style={{ height: height * 0.25, marginBottom:12 }}>
+      <LottieView
+        source={require("../assets/banner.json")}
+        autoPlay
+        loop
+        style={styles.background}
+        resizeMode="cover"
+        duration={6000}
+      />
       <View style={styles.content}>
         <HomeHeader />
       </View>
@@ -14,17 +24,13 @@ export default function HomeBanner() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 200,
-    position: "relative",
-  },
   background: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "#EA4335",
+    opacity:0.7
   },
   content: {
     padding: 16,

@@ -5,7 +5,7 @@ export const QUICK_ACTIONS = [
     secondLineText: 'QR code',
   },
   {
-    icon: 'send',
+    icon: 'currency-rupee',
     firstLineText: 'Pay',
     secondLineText: 'anyone',
   },
