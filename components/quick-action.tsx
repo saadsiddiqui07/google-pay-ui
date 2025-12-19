@@ -8,11 +8,6 @@ const PADDING = 32; // 16 * 2 (horizontal padding from the parent container)
 const ITEM_WIDTH = (width - PADDING) / NUM_COLUMNS;
 const ICON_CONTAINER_SIZE = ITEM_WIDTH * 0.70;
 const ICON_SIZE = ICON_CONTAINER_SIZE * 0.5;
-// const BORDER_RADIUS = ICON_CONTAINER_SIZE / 2; // Make it circular by default or controlled? Original was roughly circular but borderRadius=16 on 64 size. Here it is dynamic. Let's make it fully circular if requested or keep as is.
-// Original was 64 size, 16 radius -> 1/4.
-// Let's stick to 1/4 logic or make it fully circular for "variants".
-// The image shows circular icons for Offers.
-// Let's keep 1/4 as default and allow override.
 
 interface QuickActionProps {
   icon: string;
@@ -23,6 +18,7 @@ interface QuickActionProps {
   iconColor?: string;
   isImage?: boolean; // If true, treat icon as image uri
   variant?: 'default' | 'circular';
+  hasNotification?: boolean;
 }
 
 export default function QuickAction({
@@ -34,6 +30,7 @@ export default function QuickAction({
   iconColor = "#FFFFFF",
   isImage = false,
   variant = 'default',
+  hasNotification = false,
 }: QuickActionProps) {
   const theme = useTheme();
 
@@ -43,14 +40,13 @@ export default function QuickAction({
     <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={styles.container}>
       <View style={[styles.iconContainer, { backgroundColor: iconBackgroundColor, borderRadius: containerRadius }]}>
         {isImage ? (
-           // If it's an image, we assume it's a full image or an icon image? 
-           // If isImage is true, we can use Image component.
-           // But looking at the request, the user might just pass an icon name.
-           // If `icon` is a URL, we use Image.
-           // Let's try to detect or just trust `isImage`.
            <Image source={{ uri: icon }} style={{ width: ICON_SIZE, height: ICON_SIZE, resizeMode: 'contain' }} />
         ) : (
            <Icon source={icon} size={ICON_SIZE} color={iconColor} />
+        )}
+        
+        {hasNotification && (
+          <View style={styles.notificationDot} />
         )}
       </View>
       <View style={styles.textContainer}>
@@ -86,6 +82,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 8,
+    position: 'relative',
+  },
+  notificationDot: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#A8C7FA', // Light blue notification color from screenshot
+    borderWidth: 2,
+    borderColor: '#A8C7FA',
   },
   textContainer: {
     alignItems: 'center',

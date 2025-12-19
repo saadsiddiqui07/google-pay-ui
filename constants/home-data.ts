@@ -51,6 +51,7 @@ export const OFFERS_DATA = [
     iconColor: '#FFFFFF',
     image: 'https://cdn-icons-png.flaticon.com/512/3112/3112946.png', // Placeholder or use icon
     isImage: false,
+    hasNotification: true,
   },
   {
     icon: 'tag',
@@ -97,7 +98,7 @@ export const PEOPLE = [
 export const MANAGE_MONEY_DATA = [
   {
     icon: 'speedometer',
-    title: 'Check your CIBIL score',
+    title: 'Check your CIBIL score for free',
   },
   {
     icon: 'history',

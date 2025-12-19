@@ -26,6 +26,7 @@ export default function OffersRewards() {
             iconColor={item.iconColor}
             isImage={item.isImage}
             variant="circular"
+            hasNotification={item.hasNotification}
             onPress={() => {}}
           />
         ))}
