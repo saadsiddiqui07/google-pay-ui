@@ -41,7 +41,7 @@ export default function TabLayout() {
           renderIcon={({ route, focused, color }) => {
             const { options } = descriptors[route.key];
             
-            // Custom render for the "You" tab to show Avatar
+            // Custom render for the "You" tab to show Avatar when user is logged in
             // if (route.name === 'profile') {
             //    return (
             //      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
