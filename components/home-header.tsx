@@ -15,7 +15,7 @@ export default function HomeHeader() {
       style={[
         styles.container,
         {
-          backgroundColor: theme.colors.background,
+          // backgroundColor: theme.colors.background,
           paddingTop: insets.top + 8,
         },
       ]}

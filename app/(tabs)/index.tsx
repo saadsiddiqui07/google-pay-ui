@@ -1,5 +1,5 @@
 import ActionPill from "@/components/action-pill";
-import HomeHeader from "@/components/home-header";
+import HomeBanner from "@/components/home-banner";
 import PeopleGrid from "@/components/people-grid";
 import QuickAction from "@/components/quick-action";
 import { ACTION_PILLS, PEOPLE, QUICK_ACTIONS } from "@/constants/home-data";
@@ -12,47 +12,47 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
-        <HomeHeader />
+      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+        <HomeBanner />
+        <View style={{ paddingHorizontal: 16, marginTop: -40 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 24,
+            }}
+          >
+            {QUICK_ACTIONS.map((action, index) => (
+              <QuickAction
+                key={index}
+                icon={action.icon}
+                firstLineText={action.firstLineText}
+                secondLineText={action.secondLineText}
+                onPress={() => {}}
+              />
+            ))}
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ marginTop: 24, marginHorizontal: -16 }}
+            contentContainerStyle={{ paddingHorizontal: 16 }}
+          >
+            {ACTION_PILLS.map((pill, index) => (
+              <ActionPill
+                key={index}
+                icon={pill.icon}
+                iconColor={pill.iconColor}
+                title={pill.title}
+                subtitle={pill.subtitle}
+                subtitleColor={pill.subtitleColor || theme.colors.onSurface}
+                onPress={() => {}}
+              />
+            ))}
+          </ScrollView>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 24,
-          }}
-        >
-          {QUICK_ACTIONS.map((action, index) => (
-            <QuickAction
-              key={index}
-              icon={action.icon}
-              firstLineText={action.firstLineText}
-              secondLineText={action.secondLineText}
-              onPress={() => {}}
-            />
-          ))}
+          <PeopleGrid people={PEOPLE} />
         </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{ marginTop: 24, marginHorizontal: -16 }}
-          contentContainerStyle={{ paddingHorizontal: 16 }}
-        >
-          {ACTION_PILLS.map((pill, index) => (
-            <ActionPill
-              key={index}
-              icon={pill.icon}
-              iconColor={pill.iconColor}
-              title={pill.title}
-              subtitle={pill.subtitle}
-              subtitleColor={pill.subtitleColor || theme.colors.onSurface}
-              onPress={() => {}}
-            />
-          ))}
-        </ScrollView>
-
-        <PeopleGrid people={PEOPLE} />
       </ScrollView>
     </View>
   );
