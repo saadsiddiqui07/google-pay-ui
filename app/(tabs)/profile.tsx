@@ -2,8 +2,18 @@ import Option from "@/components/option";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import React from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Avatar, Surface, Text, useTheme } from "react-native-paper";
+
+const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
+
+const CONTAINER_HEIGHT = screenHeight / 4;
 
 export default function ProfileScreen() {
   const theme = useTheme();
@@ -14,11 +24,14 @@ export default function ProfileScreen() {
       showsVerticalScrollIndicator={false}
     >
       {/* Header Section */}
-      <View style={[styles.header, { backgroundColor: theme.colors.primary }]}>
+      <View style={[styles.header, { height: CONTAINER_HEIGHT }]}>
         <LottieView
-          source={require("../../assets/profile.json")}
+          source={require("../../assets/wallet.json")}
           autoPlay
-          style={StyleSheet.absoluteFill}
+          style={[
+            StyleSheet.absoluteFill,
+            { left: screenWidth / 2 - screenWidth / 3.5 },
+          ]}
           resizeMode="contain"
         />
         {/* Menu Icon */}
@@ -33,20 +46,20 @@ export default function ProfileScreen() {
         <View style={styles.userInfo}>
           <Text
             variant="headlineMedium"
-            style={[styles.nameText, { color: theme.colors.inverseOnSurface }]}
+            style={[styles.nameText, { color: theme.colors.onSurface }]}
           >
             Saad Siddiqui
           </Text>
           <Text
             variant="bodyLarge"
-            style={[styles.phoneText, { color: theme.colors.onPrimary }]}
+            style={[styles.phoneText, { color: theme.colors.onSurfaceVariant }]}
           >
             8655030041
           </Text>
         </View>
 
         {/* Avatar Section */}
-        <View style={styles.avatarContainer}>
+        <View style={[styles.avatarContainer, { top: screenHeight / 7.5 }]}>
           <Avatar.Text
             size={80}
             label="S"
@@ -57,6 +70,18 @@ export default function ProfileScreen() {
             <MaterialCommunityIcons name="qrcode" size={20} color="white" />
           </View>
         </View>
+
+        <View
+          style={{
+            width: screenWidth / 4,
+            height: 8,
+            backgroundColor: theme.colors.onSurfaceDisabled,
+            bottom: CONTAINER_HEIGHT / 4,
+            position: "absolute",
+            borderRadius: 12,
+            left: 16,
+          }}
+        />
       </View>
 
       {/* Body Content */}
@@ -155,44 +180,44 @@ export default function ProfileScreen() {
 
         {/* Options List */}
         <View style={{ marginTop: 24 }}>
-            <Option 
-                icon="credit-card-outline"
-                title="Pay with credit or debit cards"
-                subtitle="Pay bills with your card"
-                rightElement={<Text style={{color: '#4285F4', fontWeight: '500'}}>Add</Text>}
-            />
-             <Option 
-                icon="qrcode"
-                title="Your QR code"
-                subtitle="Use to receive money from any UPI app"
-            />
-             <Option 
-                icon="account-heart-outline"
-                title="UPI Circle"
-                subtitle="Help people you trust make UPI payments"
-                rightElement={
-                    <View style={{backgroundColor: '#A8C7FA', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 12}}>
-                        <Text style={{color: '#001D35', fontSize: 10, fontWeight: 'bold'}}>New</Text>
-                    </View>
-                }
-            />
-             <Option 
-                icon="cog-outline"
-                title="Settings"
-            />
-             <Option 
-                icon="account-circle-outline"
-                title="Manage Google account"
-            />
-             <Option 
-                icon="help-circle-outline"
-                title="Get help"
-            />
-             <Option 
-                icon="web"
-                title="Language"
-                subtitle="English"
-            />
+          <Option
+            icon="credit-card-outline"
+            title="Pay with credit or debit cards"
+            subtitle="Pay bills with your card"
+            rightElement={
+              <Text style={{ color: "#4285F4", fontWeight: "500" }}>Add</Text>
+            }
+          />
+          <Option
+            icon="qrcode"
+            title="Your QR code"
+            subtitle="Use to receive money from any UPI app"
+          />
+          <Option
+            icon="account-heart-outline"
+            title="UPI Circle"
+            subtitle="Help people you trust make UPI payments"
+            rightElement={
+              <View
+                style={{
+                  backgroundColor: "#A8C7FA",
+                  paddingHorizontal: 8,
+                  paddingVertical: 2,
+                  borderRadius: 12,
+                }}
+              >
+                <Text
+                  style={{ color: "#001D35", fontSize: 10, fontWeight: "bold" }}
+                >
+                  New
+                </Text>
+              </View>
+            }
+          />
+          <Option icon="cog-outline" title="Settings" />
+          <Option icon="account-circle-outline" title="Manage Google account" />
+          <Option icon="help-circle-outline" title="Get help" />
+          <Option icon="web" title="Language" subtitle="English" />
         </View>
       </View>
     </ScrollView>
@@ -212,7 +237,6 @@ function PaymentMethodItem({
   badge?: boolean;
   highlight?: boolean;
 }) {
-
   const theme = useTheme();
 
   return (
@@ -226,8 +250,19 @@ function PaymentMethodItem({
           </View>
         )}
       </View>
-      <Text style={[styles.paymentMethodTitle, { color: theme.colors.onSurface }]}>{title}</Text>
-      <Text style={[styles.paymentMethodSubtitle, { color: theme.colors.onSurfaceVariant }]}>{subtitle}</Text>
+      <Text
+        style={[styles.paymentMethodTitle, { color: theme.colors.onSurface }]}
+      >
+        {title}
+      </Text>
+      <Text
+        style={[
+          styles.paymentMethodSubtitle,
+          { color: theme.colors.onSurfaceVariant },
+        ]}
+      >
+        {subtitle}
+      </Text>
     </View>
   );
 }
@@ -237,7 +272,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: 220,
     paddingHorizontal: 20,
     paddingBottom: 40,
     justifyContent: "center",
@@ -253,7 +287,7 @@ const styles = StyleSheet.create({
   userInfo: {
     justifyContent: "center",
     gap: 4, // Reduced gap
-    marginTop: 32,
+    marginTop: 36,
   },
   nameContainer: {
     flexDirection: "row",
@@ -268,10 +302,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     opacity: 0.9,
   },
+  emailText: {
+    color: "white",
+    fontSize: 16,
+    opacity: 0.9,
+  },
   avatarContainer: {
     position: "absolute",
     right: 24,
-    top: 120, // Override previous top
   },
   avatar: {
     backgroundColor: "#9C27B0",
@@ -293,7 +331,7 @@ const styles = StyleSheet.create({
   },
   body: {
     paddingHorizontal: 16,
-    paddingTop: 40, // Space for avatar overlap
+    paddingTop: 18, // Space for avatar overlap
   },
   rewardsRow: {
     flexDirection: "row",

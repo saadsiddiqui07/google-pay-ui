@@ -31,8 +31,6 @@ export default function Option({
       style={[style]}
       onPress={onPress || (() => {})}
       rippleColor={rippleColor}
-      // @ts-ignore
-      useForeground={true}
     >
       <View style={styles.contentWrapper}>
         <View style={styles.leftContent}>
