@@ -53,7 +53,7 @@ export default function HomeHeader() {
         </Pressable>
 
         {/* Profile Icon */}
-        <TouchableOpacity style={styles.profileContainer}>
+        <TouchableOpacity style={styles.profileContainer} onPress={() => router.push("/profile")}>
           <View
             style={[
               styles.avatarContainer,

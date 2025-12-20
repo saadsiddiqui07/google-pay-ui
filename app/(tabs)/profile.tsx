@@ -1,13 +1,23 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import LottieView from "lottie-react-native";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Avatar, Text } from "react-native-paper";
+import { Avatar, Text, useTheme } from "react-native-paper";
 
 export default function ProfileScreen() {
+
+  const theme = useTheme();
+
   return (
     <View style={styles.container}>
       {/* Header Section */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: theme.colors.primary}]}>
+        <LottieView
+          source={require("../../assets/profile.json")}
+          autoPlay
+          style={StyleSheet.absoluteFill}
+          resizeMode="contain"
+        />
         {/* Menu Icon */}
         <View style={styles.menuIcon}>
           <MaterialCommunityIcons
@@ -18,10 +28,10 @@ export default function ProfileScreen() {
         </View>
 
         <View style={styles.userInfo}>
-          <Text variant="headlineLarge" style={styles.nameText}>
+          <Text variant="headlineLarge" style={[styles.nameText, { color: theme.colors.onPrimary }]} >
             Saad Siddiqui
           </Text>
-          <Text variant="bodyLarge" style={styles.phoneText}>
+          <Text variant="bodyLarge" style={[styles.phoneText, { color: theme.colors.onPrimary }]}>
             8655030041
           </Text>
         </View>
@@ -48,12 +58,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: "royalblue", // Red color for now
     height: 220,
     paddingHorizontal: 20,
     paddingBottom: 40, // Space for content above bottom edge
     justifyContent: "center",
     position: "relative",
+    overflow:'hidden'
   },
   menuIcon: {
     position: "absolute",
