@@ -11,6 +11,7 @@ export default function ProfileScreen() {
     <ScrollView
       style={styles.container}
       contentContainerStyle={{ paddingBottom: 40 }}
+      showsVerticalScrollIndicator={false}
     >
       {/* Header Section */}
       <View style={[styles.header, { backgroundColor: theme.colors.primary }]}>

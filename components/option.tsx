@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
-import { Text, useTheme, Icon } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { StyleSheet, View, ViewStyle } from 'react-native';
+import { Icon, Text, TouchableRipple, useTheme } from 'react-native-paper';
 
 export type OptionProps = {
   icon: string;
@@ -13,6 +12,8 @@ export type OptionProps = {
   style?: ViewStyle;
 };
 
+// @TODO: fix ripple effect for Android
+
 export default function Option({
   icon,
   title,
@@ -23,49 +24,54 @@ export default function Option({
   style,
 }: OptionProps) {
   const theme = useTheme();
+  const rippleColor = theme.dark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 
   return (
-    <TouchableOpacity
-      style={[styles.container, style]}
-      onPress={onPress}
-      activeOpacity={0.7}
+    <TouchableRipple
+      style={[style]}
+      onPress={onPress || (() => {})}
+      rippleColor={rippleColor}
+      // @ts-ignore
+      useForeground={true}
     >
-      <View style={styles.leftContent}>
-        <View style={styles.iconContainer}>
+      <View style={styles.contentWrapper}>
+        <View style={styles.leftContent}>
+          <View style={styles.iconContainer}>
             {/* Using Paper Icon to support source prop flexible if needed, 
                 but for consistency with profile we can use MaterialCommunityIcons directly if source is string name 
                 However, Icon from paper handles source string as MCI usually. 
                 Let's stick to Icon from paper as manage-money uses it. */}
             <Icon source={icon} size={24} color={theme.colors.primary} />
-        </View>
-        <View style={styles.textContainer}>
-          <Text variant="bodyLarge" style={{ color: theme.colors.onBackground, fontWeight: '500' }}>
-            {title}
-          </Text>
-          {subtitle && (
-            <Text variant="bodySmall" style={{ color: theme.colors.onSurfaceVariant, marginTop: 2 }}>
-              {subtitle}
+          </View>
+          <View style={styles.textContainer}>
+            <Text variant="bodyLarge" style={{ color: theme.colors.onBackground, fontWeight: '500' }}>
+              {title}
             </Text>
+            {subtitle && (
+              <Text variant="bodySmall" style={{ color: theme.colors.onSurfaceVariant, marginTop: 2 }}>
+                {subtitle}
+              </Text>
+            )}
+          </View>
+        </View>
+
+        <View style={styles.rightContent}>
+          {rightElement}
+          {showChevron && (
+            <Icon source="chevron-right" size={24} color={theme.colors.onSurfaceVariant} />
           )}
         </View>
       </View>
-
-      <View style={styles.rightContent}>
-        {rightElement}
-        {showChevron && (
-          <Icon source="chevron-right" size={24} color={theme.colors.onSurfaceVariant} />
-        )}
-      </View>
-    </TouchableOpacity>
+    </TouchableRipple>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 16,
+  contentWrapper: {
+     flexDirection: 'row',
+     alignItems: 'center',
+     justifyContent: 'space-between',
+     paddingVertical: 16,
   },
   leftContent: {
     flexDirection: 'row',
