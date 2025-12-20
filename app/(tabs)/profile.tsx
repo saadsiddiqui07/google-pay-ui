@@ -1,3 +1,4 @@
+import Option from "@/components/option";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import React from "react";
@@ -150,6 +151,48 @@ export default function ProfileScreen() {
             />
           </View>
         </Surface>
+
+        {/* Options List */}
+        <View style={{ marginTop: 24 }}>
+            <Option 
+                icon="credit-card-outline"
+                title="Pay with credit or debit cards"
+                subtitle="Pay bills with your card"
+                rightElement={<Text style={{color: '#4285F4', fontWeight: '500'}}>Add</Text>}
+            />
+             <Option 
+                icon="qrcode"
+                title="Your QR code"
+                subtitle="Use to receive money from any UPI app"
+            />
+             <Option 
+                icon="account-heart-outline"
+                title="UPI Circle"
+                subtitle="Help people you trust make UPI payments"
+                rightElement={
+                    <View style={{backgroundColor: '#A8C7FA', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 12}}>
+                        <Text style={{color: '#001D35', fontSize: 10, fontWeight: 'bold'}}>New</Text>
+                    </View>
+                }
+            />
+             <Option 
+                icon="cog-outline"
+                title="Settings"
+            />
+             <Option 
+                icon="account-circle-outline"
+                title="Manage Google account"
+            />
+             <Option 
+                icon="help-circle-outline"
+                title="Get help"
+            />
+             <Option 
+                icon="web"
+                title="Language"
+                subtitle="English"
+            />
+        </View>
       </View>
     </ScrollView>
   );

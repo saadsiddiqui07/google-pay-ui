@@ -2,6 +2,7 @@ import { MANAGE_MONEY_DATA } from "@/constants/home-data";
 import React from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon, Text, useTheme } from "react-native-paper";
+import Option from "./option";
 
 const { width } = Dimensions.get("window");
 
@@ -92,30 +93,12 @@ export default function ManageMoney() {
       {/* List Items */}
       <View style={{ marginTop: 8 }}>
         {MANAGE_MONEY_DATA.map((item, index) => (
-          <TouchableOpacity
+          <Option
             key={index}
-            style={styles.listItem}
-            activeOpacity={0.7}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon source={item.icon} size={24} color={theme.colors.primary} />
-              <Text
-                variant="bodyLarge"
-                style={{
-                  marginLeft: 16,
-                  color: theme.colors.onBackground,
-                  flex: 1,
-                }}
-              >
-                {item.title}
-              </Text>
-            </View>
-            <Icon
-              source="chevron-right"
-              size={28}
-              color={theme.colors.onSurfaceVariant}
-            />
-          </TouchableOpacity>
+            icon={item.icon}
+            title={item.title}
+            showChevron
+          />
         ))}
       </View>
     </View>
@@ -129,11 +112,5 @@ const styles = StyleSheet.create({
     // Minimum height to align contents roughly if text wraps differently,
     // but flex usually handles it.
   },
-  listItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 16,
-    paddingRight: 16,
-  },
+  // listItem style removed as it's handled by Option component
 });
