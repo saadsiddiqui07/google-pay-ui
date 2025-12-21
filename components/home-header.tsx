@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -22,7 +22,7 @@ export default function HomeHeader() {
     >
       <View style={styles.contentContainer}>
         {/* Search Bar */}
-        <Pressable style={{ flex: 1 }} onPress={() => router.push("/search")}>
+        <TouchableOpacity activeOpacity={0.9} style={{ flex: 1 }} onPress={() => router.push("/search")}>
           <Surface
             style={[
               styles.searchBar,
@@ -50,10 +50,10 @@ export default function HomeHeader() {
               Pay by name or phone number
             </Text>
           </Surface>
-        </Pressable>
+        </TouchableOpacity>
 
         {/* Profile Icon */}
-        <TouchableOpacity style={styles.profileContainer} onPress={() => router.push("/profile")}>
+        <TouchableOpacity activeOpacity={0.8} style={styles.profileContainer} onPress={() => router.push("/profile")}>
           <View
             style={[
               styles.avatarContainer,
