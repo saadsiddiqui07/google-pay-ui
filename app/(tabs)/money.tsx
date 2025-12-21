@@ -9,6 +9,48 @@ const { height: screenHeight } = Dimensions.get("window");
 
 const CONTAINER_HEIGHT = screenHeight / 4;
 
+const TRANSACTIONS = [
+  {
+    id: "1",
+    name: "JioFiber",
+    date: "September 12, 2022",
+    amount: "₹824.82",
+    initial: "J",
+    color: "#D93025",
+  },
+  {
+    id: "2",
+    name: "REVU PRABHAKARA RAO",
+    date: "August 30, 2022 ",
+    amount: "₹100",
+    image: "https://i.pravatar.cc/150?u=Revu",
+  },
+  {
+    id: "3",
+    name: "Swiggy",
+    date: "August 28, 2022",
+    amount: "₹450",
+    initial: "S",
+    color: "#F9AB00",
+  },
+  {
+    id: "4",
+    name: "Uber",
+    date: "August 25, 2022 ",
+    amount: "₹120.50",
+    initial: "U",
+    color: "#000000",
+  },
+  {
+    id: "5",
+    name: "Zomato",
+    date: "August 20, 2022 ",
+    amount: "₹340",
+    initial: "Z",
+    color: "#E23744",
+  },
+];
+
 export default function MoneyScreen() {
   const theme = useTheme();
 
@@ -160,6 +202,131 @@ export default function MoneyScreen() {
 
         <View style={{ marginTop: 24 }}>
           <ManageMoney variant="money" />
+        </View>
+
+        {/* Transaction History */}
+        <View style={{ marginTop: 24 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
+            <Text variant="titleLarge" style={{ fontWeight: "bold" }}>
+              Transaction History
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingVertical: 6,
+                borderRadius: 20,
+              }}
+            >
+              <Text
+                variant="labelLarge"
+                style={{
+                  color: theme.colors.primary,
+                  marginRight: 4,
+                  fontWeight: "bold",
+                }}
+              >
+                See all
+              </Text>
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={16}
+                color={theme.colors.primary}
+              />
+            </View>
+          </View>
+
+          <View>
+            {TRANSACTIONS.map((item) => (
+              <View
+                key={item.id}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: 20,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    flex: 1,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 20,
+                      backgroundColor: item.color || "#ddd",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      overflow: "hidden",
+                      marginRight: 12,
+                    }}
+                  >
+                    {item.image ? (
+                      <Image
+                        source={{ uri: item.image }}
+                        style={{ width: 40, height: 40 }}
+                      />
+                    ) : (
+                      <Text
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 18,
+                        }}
+                      >
+                        {item.initial}
+                      </Text>
+                    )}
+                  </View>
+                  <View style={{ flex: 1, marginRight: 8 }}>
+                    <Text
+                      variant="bodyMedium"
+                      style={{
+                        fontWeight: "bold",
+                        color: theme.colors.onBackground,
+                      }}
+                      numberOfLines={1}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      variant="bodySmall"
+                      style={{
+                        color: theme.colors.onSurfaceVariant,
+                        marginTop: 2,
+                      }}
+                    >
+                      {item.date}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Text
+                    variant="bodyMedium"
+                    style={{
+                      fontWeight: "bold",
+                      color: theme.colors.onBackground,
+                      textAlign: "left",
+                    }}
+                  >
+                    {item.amount}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
     </ScrollView>
