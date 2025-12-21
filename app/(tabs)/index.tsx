@@ -12,12 +12,18 @@ import {
   PEOPLE,
   QUICK_ACTIONS,
 } from "@/constants/home-data";
-import React from "react";
+import React, { useCallback } from "react";
 import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
 
 export default function HomeScreen() {
   const theme = useTheme();
+
+  const handleQuickActionPress = useCallback(() => {},
+  []);
+
+  const handleActionPillPress = useCallback(() => {},
+  []);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -40,13 +46,13 @@ export default function HomeScreen() {
               justifyContent: "space-between",
             }}
           >
-            {QUICK_ACTIONS.map((action, index) => (
+            {QUICK_ACTIONS.map((action) => (
               <QuickAction
-                key={index}
+                key={action.icon}
                 icon={action.icon}
                 firstLineText={action.firstLineText}
                 secondLineText={action.secondLineText}
-                onPress={() => {}}
+                onPress={handleQuickActionPress}
               />
             ))}
           </View>
@@ -56,15 +62,15 @@ export default function HomeScreen() {
             style={{ marginHorizontal: -16 }}
             contentContainerStyle={{ paddingHorizontal: 16 }}
           >
-            {ACTION_PILLS.map((pill, index) => (
+            {ACTION_PILLS.map((pill) => (
               <ActionPill
-                key={index}
+                key={pill.icon}
                 icon={pill.icon}
                 iconColor={pill.iconColor}
                 title={pill.title}
                 subtitle={pill.subtitle}
                 subtitleColor={pill.subtitleColor || theme.colors.onSurface}
-                onPress={() => {}}
+                onPress={handleActionPillPress}
               />
             ))}
           </ScrollView>
@@ -79,9 +85,9 @@ export default function HomeScreen() {
 
           {/* List Items */}
           <View>
-            {MANAGE_MONEY_DATA.map((item, index) => (
+            {MANAGE_MONEY_DATA.map((item) => (
               <Option
-                key={index}
+                key={item.title}
                 icon={item.icon}
                 title={item.title}
                 showChevron

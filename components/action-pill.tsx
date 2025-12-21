@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Icon, Text, useTheme } from 'react-native-paper';
 
@@ -11,7 +11,7 @@ interface ActionPillProps {
   onPress?: () => void;
 }
 
-export default function ActionPill({
+export default memo(function ActionPill({
   icon,
   title,
   subtitle,
@@ -52,7 +52,7 @@ export default function ActionPill({
       </View>
     </TouchableOpacity>
   );
-}
+})
 
 const styles = StyleSheet.create({
   container: {

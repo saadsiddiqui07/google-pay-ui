@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Dimensions, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon, Text, useTheme } from "react-native-paper";
 
@@ -21,7 +21,7 @@ interface QuickActionProps {
   hasNotification?: boolean;
 }
 
-export default function QuickAction({
+export default memo(function QuickAction({
   icon,
   firstLineText,
   secondLineText,
@@ -69,7 +69,7 @@ export default function QuickAction({
       </View>
     </TouchableOpacity>
   );
-}
+})
 
 const styles = StyleSheet.create({
   container: {

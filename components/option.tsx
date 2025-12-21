@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { Icon, Text, TouchableRipple, useTheme } from 'react-native-paper';
 
@@ -16,7 +16,7 @@ export type OptionProps = {
 
 // @TODO: fix ripple effect for Android
 
-export default function Option({
+export default memo(function Option({
   icon,
   title,
   subtitle,
@@ -67,7 +67,7 @@ export default function Option({
       </View>
     </TouchableRipple>
   );
-}
+})
 
 const styles = StyleSheet.create({
   contentWrapper: {
