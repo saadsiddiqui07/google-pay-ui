@@ -1,32 +1,68 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import LottieView from "lottie-react-native";
 import React from "react";
-import { View } from "react-native";
-import { Card, Text, useTheme } from "react-native-paper";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { Text, useTheme } from "react-native-paper";
+
+const { height: screenHeight } = Dimensions.get("window");
+
+const CONTAINER_HEIGHT = screenHeight / 4;
 
 export default function MoneyScreen() {
   const theme = useTheme();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: theme.colors.background,
-        padding: 16,
-        justifyContent: "center",
-      }}
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 40 }}
+      showsVerticalScrollIndicator={false}
     >
-      <Card style={{ backgroundColor: theme.colors.surface }}>
-        <Card.Content style={{ alignItems: "center" }}>
-          <Text
-            variant="headlineMedium"
-            style={{ color: theme.colors.primary, fontWeight: "bold" }}
-          >
-            Money
-          </Text>
-          <Text variant="bodyLarge" style={{ marginTop: 8 }}>
-            Manage your finances
-          </Text>
-        </Card.Content>
-      </Card>
-    </View>
+      {/* Header Section */}
+      <View style={[styles.header, { height: CONTAINER_HEIGHT }]}>
+        <LottieView
+          source={require("../../assets/money-tab.json")}
+          autoPlay
+          style={[StyleSheet.absoluteFill]}
+          resizeMode="contain"
+        />
+        {/* Menu Icon */}
+        <View style={styles.menuIcon}>
+          <MaterialCommunityIcons
+            name="dots-vertical"
+            size={24}
+            color={theme.colors.onSurface}
+          />
+        </View>
+        <Text
+          variant="headlineMedium"
+          style={[
+            styles.title,
+            { top: CONTAINER_HEIGHT / 3, color: theme.colors.onSurface },
+          ]}
+        >
+          Money
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    position: "relative",
+  },
+  menuIcon: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    zIndex: 1,
+  },
+  title: {
+    fontWeight: "700",
+  },
+});
