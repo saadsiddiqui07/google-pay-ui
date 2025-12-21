@@ -15,8 +15,224 @@ const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
 
 const CONTAINER_HEIGHT = screenHeight / 4;
 
-export default function ProfileScreen() {
+const Options = React.memo(() => {
+  return (
+    <View style={{ marginTop: 24 }}>
+      <Option
+        icon="credit-card-outline"
+        title="Pay with credit or debit cards"
+        subtitle="Pay bills with your card"
+        rightElement={
+          <Text style={{ color: "#4285F4", fontWeight: "500" }}>Add</Text>
+        }
+      />
+      <Option
+        icon="qrcode"
+        title="Your QR code"
+        subtitle="Use to receive money from any UPI app"
+      />
+      <Option
+        icon="account-heart-outline"
+        title="UPI Circle"
+        subtitle="Help people you trust make UPI payments"
+        rightElement={
+          <View
+            style={{
+              backgroundColor: "#A8C7FA",
+              paddingHorizontal: 8,
+              paddingVertical: 2,
+              borderRadius: 12,
+            }}
+          >
+            <Text
+              style={{ color: "#001D35", fontSize: 10, fontWeight: "bold" }}
+            >
+              New
+            </Text>
+          </View>
+        }
+      />
+      <Option icon="cog-outline" title="Settings" />
+      <Option icon="account-circle-outline" title="Manage Google account" />
+      <Option icon="help-circle-outline" title="Get help" />
+      <Option icon="web" title="Language" subtitle="English" />
+    </View>
+  );
+});
+
+Options.displayName = 'Options';
+
+const PaymentMethods = React.memo(() => {
   const theme = useTheme();
+  return (
+    <Surface
+      style={[
+        styles.paymentCard,
+        { backgroundColor: theme.dark ? "#1e1e1e" : "#eeeeeeff" },
+      ]}
+      elevation={2}
+    >
+      <View style={styles.paymentCardHeader}>
+        <Text
+          variant="titleMedium"
+          style={{ color: theme.colors.onSurface, fontWeight: "500" }}
+        >
+          Set up payment methods 1/3
+        </Text>
+        <MaterialCommunityIcons
+          name="chevron-right"
+          size={24}
+          color={theme.colors.onSurfaceVariant}
+        />
+      </View>
+
+      <View style={styles.paymentMethodsRow}>
+        <PaymentMethodItem
+          icon="bank-outline"
+          title="Bank account"
+          subtitle="1 account"
+        />
+        <PaymentMethodItem
+          icon="credit-card-plus-outline"
+          title="RuPay credit card"
+          subtitle="Pay with UPI"
+          badge
+          highlight
+        />
+        <PaymentMethodItem
+          icon="lightning-bolt-outline"
+          title="UPI Lite"
+          subtitle="Pay PIN-free"
+          badge
+          highlight
+        />
+      </View>
+    </Surface>
+  );
+});
+
+PaymentMethods.displayName = 'PaymentMethods';
+
+const Rewards = React.memo(() => {
+  return (
+    <View style={styles.rewardsRow}>
+      <TouchableOpacity
+        style={[styles.rewardPill, { backgroundColor: "#38203D" }]}
+      >
+        <MaterialCommunityIcons
+          name="ticket-percent-outline"
+          size={24}
+          color="#D88BF8"
+          style={{ marginRight: 12 }}
+        />
+        <View>
+          <Text
+            variant="titleMedium"
+            style={{ color: "#D88BF8", fontWeight: "bold" }}
+          >
+            20 rewards
+          </Text>
+          <Text variant="bodySmall" style={{ color: "#D88BF8" }}>
+            View now
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.rewardPill, { backgroundColor: "#1A3338" }]}
+      >
+        <MaterialCommunityIcons
+          name="account-group-outline"
+          size={24}
+          color="#6AD0D6"
+          style={{ marginRight: 12 }}
+        />
+        <View>
+          <Text
+            variant="titleMedium"
+            style={{ color: "#6AD0D6", fontWeight: "bold" }}
+          >
+            Get ₹201
+          </Text>
+          <Text variant="bodySmall" style={{ color: "#6AD0D6" }}>
+            Refer a friend
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+});
+
+Rewards.displayName = 'Rewards';
+
+const Header = React.memo(() => {
+  const theme = useTheme();
+  return (
+    <View style={[styles.header, { height: CONTAINER_HEIGHT }]}>
+      <LottieView
+        source={require("../../assets/wallet.json")}
+        autoPlay
+        style={[
+          StyleSheet.absoluteFill,
+          { left: screenWidth / 2 - screenWidth / 3.5 },
+        ]}
+        resizeMode="contain"
+      />
+      {/* Menu Icon */}
+      <View style={[styles.menuIcon, { top: CONTAINER_HEIGHT / 3 }]}>
+        <MaterialCommunityIcons
+          name="dots-vertical"
+          size={24}
+          color={theme.colors.onSurface}
+        />
+      </View>
+
+      <View style={styles.userInfo}>
+        <Text
+          variant="headlineMedium"
+          style={[styles.nameText, { color: theme.colors.onSurface }]}
+        >
+          Saad Siddiqui
+        </Text>
+        <Text
+          variant="bodyLarge"
+          style={[styles.phoneText, { color: theme.colors.onSurfaceVariant }]}
+        >
+          8655030041
+        </Text>
+      </View>
+
+      {/* Avatar Section */}
+      <View style={[styles.avatarContainer, { top: screenHeight / 7.5 }]}>
+        <Avatar.Text
+          size={80}
+          label="S"
+          style={styles.avatar}
+          labelStyle={styles.avatarLabel}
+        />
+        <View style={styles.qrBadge}>
+          <MaterialCommunityIcons name="qrcode" size={20} color="white" />
+        </View>
+      </View>
+
+      <View
+        style={{
+          width: screenWidth / 4,
+          height: 8,
+          backgroundColor: theme.colors.onSurfaceDisabled,
+          bottom: CONTAINER_HEIGHT / 4,
+          position: "absolute",
+          borderRadius: 12,
+          left: 16,
+        }}
+      />
+    </View>
+  );
+});
+
+Header.displayName = 'Header';
+
+export default function ProfileScreen() {
   return (
     <ScrollView
       style={styles.container}
@@ -24,207 +240,24 @@ export default function ProfileScreen() {
       showsVerticalScrollIndicator={false}
     >
       {/* Header Section */}
-      <View style={[styles.header, { height: CONTAINER_HEIGHT }]}>
-        <LottieView
-          source={require("../../assets/wallet.json")}
-          autoPlay
-          style={[
-            StyleSheet.absoluteFill,
-            { left: screenWidth / 2 - screenWidth / 3.5 },
-          ]}
-          resizeMode="contain"
-        />
-        {/* Menu Icon */}
-        <View style={[styles.menuIcon, { top: CONTAINER_HEIGHT / 3 }]}>
-          <MaterialCommunityIcons
-            name="dots-vertical"
-            size={24}
-            color={theme.colors.onSurface}
-          />
-        </View>
-
-        <View style={styles.userInfo}>
-          <Text
-            variant="headlineMedium"
-            style={[styles.nameText, { color: theme.colors.onSurface }]}
-          >
-            Saad Siddiqui
-          </Text>
-          <Text
-            variant="bodyLarge"
-            style={[styles.phoneText, { color: theme.colors.onSurfaceVariant }]}
-          >
-            8655030041
-          </Text>
-        </View>
-
-        {/* Avatar Section */}
-        <View style={[styles.avatarContainer, { top: screenHeight / 7.5 }]}>
-          <Avatar.Text
-            size={80}
-            label="S"
-            style={styles.avatar}
-            labelStyle={styles.avatarLabel}
-          />
-          <View style={styles.qrBadge}>
-            <MaterialCommunityIcons name="qrcode" size={20} color="white" />
-          </View>
-        </View>
-
-        <View
-          style={{
-            width: screenWidth / 4,
-            height: 8,
-            backgroundColor: theme.colors.onSurfaceDisabled,
-            bottom: CONTAINER_HEIGHT / 4,
-            position: "absolute",
-            borderRadius: 12,
-            left: 16,
-          }}
-        />
-      </View>
+      <Header />
 
       {/* Body Content */}
       <View style={styles.body}>
         {/* Rewards & Referrals */}
-        <View style={styles.rewardsRow}>
-          <TouchableOpacity
-            style={[styles.rewardPill, { backgroundColor: "#38203D" }]}
-          >
-            <MaterialCommunityIcons
-              name="ticket-percent-outline"
-              size={24}
-              color="#D88BF8"
-              style={{ marginRight: 12 }}
-            />
-            <View>
-              <Text
-                variant="titleMedium"
-                style={{ color: "#D88BF8", fontWeight: "bold" }}
-              >
-                20 rewards
-              </Text>
-              <Text variant="bodySmall" style={{ color: "#D88BF8" }}>
-                View now
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.rewardPill, { backgroundColor: "#1A3338" }]}
-          >
-            <MaterialCommunityIcons
-              name="account-group-outline"
-              size={24}
-              color="#6AD0D6"
-              style={{ marginRight: 12 }}
-            />
-            <View>
-              <Text
-                variant="titleMedium"
-                style={{ color: "#6AD0D6", fontWeight: "bold" }}
-              >
-                Get ₹201
-              </Text>
-              <Text variant="bodySmall" style={{ color: "#6AD0D6" }}>
-                Refer a friend
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <Rewards />
 
         {/* Payment Methods Card */}
-        <Surface
-          style={[
-            styles.paymentCard,
-            { backgroundColor: theme.dark ? "#1e1e1e" : "#eeeeeeff" },
-          ]}
-          elevation={2}
-        >
-          <View style={styles.paymentCardHeader}>
-            <Text
-              variant="titleMedium"
-              style={{ color: theme.colors.onSurface, fontWeight: "500" }}
-            >
-              Set up payment methods 1/3
-            </Text>
-            <MaterialCommunityIcons
-              name="chevron-right"
-              size={24}
-              color={theme.colors.onSurfaceVariant}
-            />
-          </View>
-
-          <View style={styles.paymentMethodsRow}>
-            <PaymentMethodItem
-              icon="bank-outline"
-              title="Bank account"
-              subtitle="1 account"
-            />
-            <PaymentMethodItem
-              icon="credit-card-plus-outline"
-              title="RuPay credit card"
-              subtitle="Pay with UPI"
-              badge
-              highlight
-            />
-            <PaymentMethodItem
-              icon="lightning-bolt-outline"
-              title="UPI Lite"
-              subtitle="Pay PIN-free"
-              badge
-              highlight
-            />
-          </View>
-        </Surface>
+        <PaymentMethods />
 
         {/* Options List */}
-        <View style={{ marginTop: 24 }}>
-          <Option
-            icon="credit-card-outline"
-            title="Pay with credit or debit cards"
-            subtitle="Pay bills with your card"
-            rightElement={
-              <Text style={{ color: "#4285F4", fontWeight: "500" }}>Add</Text>
-            }
-          />
-          <Option
-            icon="qrcode"
-            title="Your QR code"
-            subtitle="Use to receive money from any UPI app"
-          />
-          <Option
-            icon="account-heart-outline"
-            title="UPI Circle"
-            subtitle="Help people you trust make UPI payments"
-            rightElement={
-              <View
-                style={{
-                  backgroundColor: "#A8C7FA",
-                  paddingHorizontal: 8,
-                  paddingVertical: 2,
-                  borderRadius: 12,
-                }}
-              >
-                <Text
-                  style={{ color: "#001D35", fontSize: 10, fontWeight: "bold" }}
-                >
-                  New
-                </Text>
-              </View>
-            }
-          />
-          <Option icon="cog-outline" title="Settings" />
-          <Option icon="account-circle-outline" title="Manage Google account" />
-          <Option icon="help-circle-outline" title="Get help" />
-          <Option icon="web" title="Language" subtitle="English" />
-        </View>
+        <Options />
       </View>
     </ScrollView>
   );
 }
 
-function PaymentMethodItem({
+const PaymentMethodItem = React.memo(({
   icon,
   title,
   subtitle,
@@ -236,7 +269,7 @@ function PaymentMethodItem({
   subtitle: string;
   badge?: boolean;
   highlight?: boolean;
-}) {
+}) => {
   const theme = useTheme();
 
   return (
@@ -265,7 +298,9 @@ function PaymentMethodItem({
       </Text>
     </View>
   );
-}
+});
+
+PaymentMethodItem.displayName = 'PaymentMethodItem';
 
 const styles = StyleSheet.create({
   container: {
