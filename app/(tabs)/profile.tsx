@@ -35,11 +35,11 @@ export default function ProfileScreen() {
           resizeMode="contain"
         />
         {/* Menu Icon */}
-        <View style={styles.menuIcon}>
+        <View style={[styles.menuIcon, { top: CONTAINER_HEIGHT / 3 }]}>
           <MaterialCommunityIcons
             name="dots-vertical"
             size={24}
-            color="white"
+            color={theme.colors.onSurface}
           />
         </View>
 
@@ -280,7 +280,6 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     position: "absolute",
-    top: 50,
     right: 20,
     zIndex: 1,
   },
