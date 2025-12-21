@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import React from "react";
-import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 
 const { height: screenHeight } = Dimensions.get("window");
@@ -42,6 +42,64 @@ export default function MoneyScreen() {
         >
           Money
         </Text>
+      </View>
+
+      <View style={{ paddingHorizontal: 20 }}>
+        <View style={{ paddingVertical: 12 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", flex: 1 }}
+            >
+              <View
+                style={{
+                  width: 40,
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  source={require("../../assets/images/bank-logo.webp")}
+                  style={{ width: 36, height: 36 }}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={{ flex: 1, marginLeft: 12 }}>
+                <Text
+                  variant="bodyLarge"
+                  style={{
+                    color: theme.colors.onBackground,
+                    fontWeight: "700",
+                  }}
+                >
+                  State Bank of India
+                </Text>
+                <Text
+                  variant="bodySmall"
+                  style={{
+                    color: theme.colors.onSurfaceVariant,
+                    marginTop: 2,
+                  }}
+                >
+                  *****48347
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text
+                variant="labelLarge"
+                style={{ color: theme.colors.primary, fontWeight: "bold" }}
+              >
+                Check balance
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );

@@ -10,6 +10,8 @@ export type OptionProps = {
   rightElement?: React.ReactNode; // For custom right content like "Add" or Badge
   showChevron?: boolean; // Defaults to false, unless specified
   style?: ViewStyle;
+  variant?: 'default' | 'bank-account';
+  iconColor?: string;
 };
 
 // @TODO: fix ripple effect for Android
@@ -22,9 +24,12 @@ export default function Option({
   rightElement,
   showChevron = false,
   style,
+  variant = 'default',
+  iconColor,
 }: OptionProps) {
   const theme = useTheme();
   const rippleColor = theme.dark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+  const effectiveIconColor = iconColor || theme.colors.primary;
 
   return (
     <TouchableRipple
@@ -39,7 +44,7 @@ export default function Option({
                 but for consistency with profile we can use MaterialCommunityIcons directly if source is string name 
                 However, Icon from paper handles source string as MCI usually. 
                 Let's stick to Icon from paper as manage-money uses it. */}
-            <Icon source={icon} size={24} color={theme.colors.primary} />
+            <Icon source={icon} size={24} color={effectiveIconColor} />
           </View>
           <View style={styles.textContainer}>
             <Text variant="bodyLarge" style={{ color: theme.colors.onBackground, fontWeight: '500' }}>
