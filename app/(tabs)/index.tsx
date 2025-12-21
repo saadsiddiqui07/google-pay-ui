@@ -16,75 +16,11 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
 
-const ListOptions = React.memo(() => {
-  return (
-    <View>
-      {MANAGE_MONEY_DATA.map((item, index) => (
-        <Option
-          key={index}
-          icon={item.icon}
-          title={item.title}
-          showChevron
-        />
-      ))}
-    </View>
-  );
-});
-
-ListOptions.displayName = 'ListOptions';
-
-const ActionPills = React.memo(() => {
-  const theme = useTheme();
-  return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={{ marginHorizontal: -16 }}
-      contentContainerStyle={{ paddingHorizontal: 16 }}
-    >
-      {ACTION_PILLS.map((pill, index) => (
-        <ActionPill
-          key={index}
-          icon={pill.icon}
-          iconColor={pill.iconColor}
-          title={pill.title}
-          subtitle={pill.subtitle}
-          subtitleColor={pill.subtitleColor || theme.colors.onSurface}
-          onPress={() => {}}
-        />
-      ))}
-    </ScrollView>
-  );
-});
-
-ActionPills.displayName = 'ActionPills';
-
-const QuickActions = React.memo(() => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-      }}
-    >
-      {QUICK_ACTIONS.map((action, index) => (
-        <QuickAction
-          key={index}
-          icon={action.icon}
-          firstLineText={action.firstLineText}
-          secondLineText={action.secondLineText}
-          onPress={() => {}}
-        />
-      ))}
-    </View>
-  );
-});
-
-QuickActions.displayName = 'QuickActions';
-
 export default function HomeScreen() {
+  const theme = useTheme();
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
@@ -98,8 +34,40 @@ export default function HomeScreen() {
             paddingTop: 24,
           }}
         >
-          <QuickActions />
-          <ActionPills />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            {QUICK_ACTIONS.map((action, index) => (
+              <QuickAction
+                key={index}
+                icon={action.icon}
+                firstLineText={action.firstLineText}
+                secondLineText={action.secondLineText}
+                onPress={() => {}}
+              />
+            ))}
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ marginHorizontal: -16 }}
+            contentContainerStyle={{ paddingHorizontal: 16 }}
+          >
+            {ACTION_PILLS.map((pill, index) => (
+              <ActionPill
+                key={index}
+                icon={pill.icon}
+                iconColor={pill.iconColor}
+                title={pill.title}
+                subtitle={pill.subtitle}
+                subtitleColor={pill.subtitleColor || theme.colors.onSurface}
+                onPress={() => {}}
+              />
+            ))}
+          </ScrollView>
 
           <PeopleGrid people={PEOPLE} />
 
@@ -110,7 +78,16 @@ export default function HomeScreen() {
           <ManageMoney variant="home" />
 
           {/* List Items */}
-          <ListOptions />
+          <View>
+            {MANAGE_MONEY_DATA.map((item, index) => (
+              <Option
+                key={index}
+                icon={item.icon}
+                title={item.title}
+                showChevron
+              />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </View>
