@@ -1,3 +1,4 @@
+import ManageMoney from "@/components/manage-money";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import React from "react";
@@ -155,6 +156,10 @@ export default function MoneyScreen() {
               </Text>
             </View>
           </View>
+        </View>
+
+        <View style={{ marginTop: 24 }}>
+          <ManageMoney variant="money" />
         </View>
       </View>
     </ScrollView>

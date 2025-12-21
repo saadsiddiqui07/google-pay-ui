@@ -3,9 +3,15 @@ import BillsRecharges from "@/components/bills-recharges";
 import HomeBanner from "@/components/home-banner";
 import ManageMoney from "@/components/manage-money";
 import OffersRewards from "@/components/offers-rewards";
+import Option from "@/components/option";
 import PeopleGrid from "@/components/people-grid";
 import QuickAction from "@/components/quick-action";
-import { ACTION_PILLS, PEOPLE, QUICK_ACTIONS } from "@/constants/home-data";
+import {
+  ACTION_PILLS,
+  MANAGE_MONEY_DATA,
+  PEOPLE,
+  QUICK_ACTIONS,
+} from "@/constants/home-data";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
@@ -15,9 +21,19 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 40 }}
+        showsVerticalScrollIndicator={false}
+      >
         <HomeBanner />
-        <View style={{ paddingHorizontal: 16, marginTop: -20, gap: 24, paddingTop: 24 }}>
+        <View
+          style={{
+            paddingHorizontal: 16,
+            marginTop: -20,
+            gap: 24,
+            paddingTop: 24,
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
@@ -56,10 +72,22 @@ export default function HomeScreen() {
           <PeopleGrid people={PEOPLE} />
 
           <BillsRecharges />
-          
+
           <OffersRewards />
 
-          <ManageMoney />
+          <ManageMoney variant="home" />
+
+          {/* List Items */}
+          <View>
+            {MANAGE_MONEY_DATA.map((item, index) => (
+              <Option
+                key={index}
+                icon={item.icon}
+                title={item.title}
+                showChevron
+              />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </View>

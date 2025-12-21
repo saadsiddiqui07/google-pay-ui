@@ -1,8 +1,6 @@
-import { MANAGE_MONEY_DATA } from "@/constants/home-data";
 import React from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon, Text, useTheme } from "react-native-paper";
-import Option from "./option";
 
 const { width } = Dimensions.get("window");
 
@@ -11,8 +9,10 @@ const CARD_GAP = 16;
 const PADDING = 32; // 16 * 2 (horizontal padding from the parent container)
 const CARD_WIDTH = (width - PADDING - CARD_GAP) / 2;
 
-export default function ManageMoney() {
+export default function ManageMoney({ variant = "home" }: { variant?: "home" | "money" }) {
   const theme = useTheme();
+
+  const onMoneyScreen = variant === "money";
 
   return (
     <View>
@@ -20,7 +20,7 @@ export default function ManageMoney() {
         variant="titleLarge"
         style={{ marginBottom: 16, fontWeight: "bold", color: theme.colors.onBackground }}
       >
-        Manage your money
+        {onMoneyScreen ? "Credit for you" : "Manage your money"}  
       </Text>
 
       {/* Loan Cards */}
@@ -42,7 +42,7 @@ export default function ManageMoney() {
           ]}
           activeOpacity={0.8}
         >
-          <Icon source="script-text-outline" size={24} color={theme.colors.primary} />
+          <Icon source={onMoneyScreen ? "sack" : "script-text-outline"} size={24} color={onMoneyScreen ? 'gold' : theme.colors.primary} />
           <Text
             variant="titleMedium"
             style={{ marginTop: 12, fontWeight: "500", color: theme.colors.onSurface }}
@@ -71,7 +71,7 @@ export default function ManageMoney() {
           ]}
           activeOpacity={0.8}
         >
-          <Icon source="gold" size={24} color={theme.colors.primary} />
+          <Icon source="gold" size={24} color={onMoneyScreen ? 'gold' : theme.colors.primary} />
           <Text
             variant="titleMedium"
             style={{ marginTop: 12, fontWeight: "500", color: theme.colors.onSurface }}
@@ -90,17 +90,6 @@ export default function ManageMoney() {
         </TouchableOpacity>
       </View>
 
-      {/* List Items */}
-      <View style={{ marginTop: 8 }}>
-        {MANAGE_MONEY_DATA.map((item, index) => (
-          <Option
-            key={index}
-            icon={item.icon}
-            title={item.title}
-            showChevron
-          />
-        ))}
-      </View>
     </View>
   );
 }
