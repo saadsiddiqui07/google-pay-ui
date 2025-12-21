@@ -1,7 +1,7 @@
 import Option from "@/components/option";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
   Dimensions,
   ScrollView,
@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Avatar, Surface, Text, useTheme } from "react-native-paper";
+import { Avatar, Menu, Surface, Text, useTheme } from "react-native-paper";
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
 
@@ -60,7 +60,7 @@ const Options = React.memo(() => {
   );
 });
 
-Options.displayName = 'Options';
+Options.displayName = "Options";
 
 const PaymentMethods = React.memo(() => {
   const theme = useTheme();
@@ -111,7 +111,7 @@ const PaymentMethods = React.memo(() => {
   );
 });
 
-PaymentMethods.displayName = 'PaymentMethods';
+PaymentMethods.displayName = "PaymentMethods";
 
 const Rewards = React.memo(() => {
   return (
@@ -163,10 +163,19 @@ const Rewards = React.memo(() => {
   );
 });
 
-Rewards.displayName = 'Rewards';
+Rewards.displayName = "Rewards";
+
+// @TODO: Fix menu not closing on press
 
 const Header = React.memo(() => {
   const theme = useTheme();
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const openMenu = () => setMenuVisible(true);
+  const closeMenu = () => setMenuVisible(false);
+
+  console.log("VISIBILITY", menuVisible);
+
   return (
     <View style={[styles.header, { height: CONTAINER_HEIGHT }]}>
       <LottieView
@@ -180,11 +189,26 @@ const Header = React.memo(() => {
       />
       {/* Menu Icon */}
       <View style={[styles.menuIcon, { top: CONTAINER_HEIGHT / 3 }]}>
-        <MaterialCommunityIcons
-          name="dots-vertical"
-          size={24}
-          color={theme.colors.onSurface}
-        />
+        <Menu
+          visible={menuVisible}
+          onDismiss={() => {
+            closeMenu();
+            console.log("MENU VISIBLE", menuVisible);
+          }}
+          anchor={
+            <TouchableOpacity onPress={openMenu}>
+              <MaterialCommunityIcons
+                name="dots-vertical"
+                size={24}
+                color={theme.colors.onSurface}
+              />
+            </TouchableOpacity>
+          }
+        >
+          <Menu.Item onPress={() => {}} title="Referral code" />
+          <Menu.Item onPress={() => {}} title="Get help" />
+          <Menu.Item onPress={() => {}} title="Get referral" />
+        </Menu>
       </View>
 
       <View style={styles.userInfo}>
@@ -230,7 +254,7 @@ const Header = React.memo(() => {
   );
 });
 
-Header.displayName = 'Header';
+Header.displayName = "Header";
 
 export default function ProfileScreen() {
   return (
@@ -257,50 +281,52 @@ export default function ProfileScreen() {
   );
 }
 
-const PaymentMethodItem = React.memo(({
-  icon,
-  title,
-  subtitle,
-  badge,
-  highlight,
-}: {
-  icon: any;
-  title: string;
-  subtitle: string;
-  badge?: boolean;
-  highlight?: boolean;
-}) => {
-  const theme = useTheme();
+const PaymentMethodItem = React.memo(
+  ({
+    icon,
+    title,
+    subtitle,
+    badge,
+    highlight,
+  }: {
+    icon: any;
+    title: string;
+    subtitle: string;
+    badge?: boolean;
+    highlight?: boolean;
+  }) => {
+    const theme = useTheme();
 
-  return (
-    <View style={styles.paymentMethodItem}>
-      <View style={styles.iconWrapper}>
-        {highlight && <View style={styles.dottedCircle} />}
-        <MaterialCommunityIcons name={icon} size={32} color="#4285F4" />
-        {badge && (
-          <View style={styles.plusBadge}>
-            <MaterialCommunityIcons name="plus" size={10} color="black" />
-          </View>
-        )}
+    return (
+      <View style={styles.paymentMethodItem}>
+        <View style={styles.iconWrapper}>
+          {highlight && <View style={styles.dottedCircle} />}
+          <MaterialCommunityIcons name={icon} size={32} color="#4285F4" />
+          {badge && (
+            <View style={styles.plusBadge}>
+              <MaterialCommunityIcons name="plus" size={10} color="black" />
+            </View>
+          )}
+        </View>
+        <Text
+          style={[styles.paymentMethodTitle, { color: theme.colors.onSurface }]}
+        >
+          {title}
+        </Text>
+        <Text
+          style={[
+            styles.paymentMethodSubtitle,
+            { color: theme.colors.onSurfaceVariant },
+          ]}
+        >
+          {subtitle}
+        </Text>
       </View>
-      <Text
-        style={[styles.paymentMethodTitle, { color: theme.colors.onSurface }]}
-      >
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.paymentMethodSubtitle,
-          { color: theme.colors.onSurfaceVariant },
-        ]}
-      >
-        {subtitle}
-      </Text>
-    </View>
-  );
-});
+    );
+  }
+);
 
-PaymentMethodItem.displayName = 'PaymentMethodItem';
+PaymentMethodItem.displayName = "PaymentMethodItem";
 
 const styles = StyleSheet.create({
   container: {
