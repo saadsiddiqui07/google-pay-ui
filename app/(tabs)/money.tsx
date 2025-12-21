@@ -100,6 +100,62 @@ export default function MoneyScreen() {
             </View>
           </View>
         </View>
+
+        <View style={{ paddingVertical: 12, marginTop: 8 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", flex: 1 }}
+            >
+              <View
+                style={{
+                  width: 40,
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="speedometer"
+                  size={36}
+                  color={theme.colors.onBackground}
+                />
+              </View>
+              <View style={{ flex: 1, marginLeft: 12 }}>
+                <Text
+                  variant="bodyLarge"
+                  style={{
+                    color: theme.colors.onBackground,
+                    fontWeight: "700",
+                  }}
+                >
+                  CIBIL score
+                </Text>
+                <Text
+                  variant="bodySmall"
+                  style={{
+                    color: theme.colors.onSurfaceVariant,
+                    marginTop: 2,
+                  }}
+                >
+                  Check for free, instantly
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text
+                variant="labelLarge"
+                style={{ color: theme.colors.primary, fontWeight: "bold" }}
+              >
+                Check now
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
