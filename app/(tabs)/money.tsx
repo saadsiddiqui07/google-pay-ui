@@ -5,7 +5,6 @@ import LottieView from "lottie-react-native";
 import React from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { height: screenHeight } = Dimensions.get("window");
 
@@ -55,7 +54,6 @@ const TRANSACTIONS = [
 
 export default function MoneyScreen() {
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
 
   return (
     <ScrollView
@@ -64,7 +62,7 @@ export default function MoneyScreen() {
       showsVerticalScrollIndicator={false}
     >
       {/* Header Section */}
-      <View style={[styles.header, { height: CONTAINER_HEIGHT, marginTop: insets.top }]}>
+      <View style={[styles.header, { height: CONTAINER_HEIGHT }]}>
         <LottieView
           source={require("../../assets/money-tab.json")}
           autoPlay
@@ -72,7 +70,7 @@ export default function MoneyScreen() {
           resizeMode="contain"
         />
         {/* Menu Icon */}
-        <View style={styles.menuIcon}>
+        <View style={[styles.menuIcon, { top: CONTAINER_HEIGHT / 3 }]}>
           <MaterialCommunityIcons
             name="dots-vertical"
             size={24}
@@ -268,7 +266,6 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     position: "absolute",
-    top: 50,
     right: 20,
     zIndex: 1,
   },
