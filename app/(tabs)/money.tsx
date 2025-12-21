@@ -1,4 +1,5 @@
 import ManageMoney from "@/components/manage-money";
+import Transaction from "@/components/transaction";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import React from "react";
@@ -245,86 +246,7 @@ export default function MoneyScreen() {
 
           <View>
             {TRANSACTIONS.map((item) => (
-              <View
-                key={item.id}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: 20,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    flex: 1,
-                  }}
-                >
-                  <View
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 20,
-                      backgroundColor: item.color || "#ddd",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      overflow: "hidden",
-                      marginRight: 12,
-                    }}
-                  >
-                    {item.image ? (
-                      <Image
-                        source={{ uri: item.image }}
-                        style={{ width: 40, height: 40 }}
-                      />
-                    ) : (
-                      <Text
-                        style={{
-                          color: "white",
-                          fontWeight: "bold",
-                          fontSize: 18,
-                        }}
-                      >
-                        {item.initial}
-                      </Text>
-                    )}
-                  </View>
-                  <View style={{ flex: 1, marginRight: 8 }}>
-                    <Text
-                      variant="bodyMedium"
-                      style={{
-                        fontWeight: "bold",
-                        color: theme.colors.onBackground,
-                      }}
-                      numberOfLines={1}
-                    >
-                      {item.name}
-                    </Text>
-                    <Text
-                      variant="bodySmall"
-                      style={{
-                        color: theme.colors.onSurfaceVariant,
-                        marginTop: 2,
-                      }}
-                    >
-                      {item.date}
-                    </Text>
-                  </View>
-                </View>
-                <View>
-                  <Text
-                    variant="bodyMedium"
-                    style={{
-                      fontWeight: "bold",
-                      color: theme.colors.onBackground,
-                      textAlign: "left",
-                    }}
-                  >
-                    {item.amount}
-                  </Text>
-                </View>
-              </View>
+              <Transaction key={item.id} item={item} />
             ))}
           </View>
         </View>
