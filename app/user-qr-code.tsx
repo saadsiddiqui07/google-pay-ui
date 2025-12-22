@@ -24,7 +24,7 @@ export default function UserQRCodeScreen() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <StatusBar style="light" />
+      <StatusBar style="auto" />
       <Stack.Screen options={{ headerShown: false }} />
 
       {/* Header */}
