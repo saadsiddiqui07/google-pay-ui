@@ -64,7 +64,6 @@ export default function UserQRCodeScreen() {
             styles.card,
             {
               backgroundColor: theme.colors.surface,
-              height: screenHeight * 0.55,
             },
           ]}
           elevation={0}
