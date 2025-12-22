@@ -3,52 +3,88 @@ import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
+  Dimensions,
+  Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { Avatar, Surface, Text, useTheme } from "react-native-paper";
 import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const { height: screenHeight } = Dimensions.get("window");
 
 export default function UserQRCodeScreen() {
   const router = useRouter();
   const theme = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.surface }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <StatusBar style="light" />
       <Stack.Screen options={{ headerShown: false }} />
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <MaterialCommunityIcons name="arrow-left" size={24} color="white" />
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={styles.backButton}
+        >
+          <MaterialCommunityIcons
+            name="arrow-left"
+            size={24}
+            color={theme.colors.onBackground}
+          />
         </TouchableOpacity>
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.iconButton}>
-            <MaterialCommunityIcons name="download" size={24} color="white" />
+            <MaterialCommunityIcons
+              name="download"
+              size={24}
+              color={theme.colors.onBackground}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
-            <MaterialCommunityIcons name="dots-vertical" size={24} color="white" />
+            <MaterialCommunityIcons
+              name="dots-vertical"
+              size={24}
+              color={theme.colors.onBackground}
+            />
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
         {/* QR Card */}
-        <Surface style={[styles.card]} elevation={0}>
+        <Surface
+          style={[
+            styles.card,
+            {
+              backgroundColor: theme.colors.surface,
+              height: screenHeight * 0.55,
+            },
+          ]}
+          elevation={0}
+        >
           <View style={styles.userInfo}>
             <Avatar.Text
               size={40}
               label="S"
-              style={{ backgroundColor: "#8e24aa" }}
-              labelStyle={{ color: "white" }}
+              style={{ backgroundColor: theme.colors.primary }}
+              labelStyle={{ color: theme.colors.onPrimary }}
             />
             <View style={styles.nameContainer}>
-              <Text variant="titleMedium" style={styles.name}>
+              <Text
+                variant="titleMedium"
+                style={{
+                  color: theme.colors.onSurface,
+                  fontSize: 20,
+                  fontWeight: "400",
+                }}
+              >
                 Saad Siddiqui
               </Text>
             </View>
@@ -58,75 +94,126 @@ export default function UserQRCodeScreen() {
             <View style={styles.qrContainer}>
               <QRCode
                 value="upi://pay?pa=saadsiddiqui927@okicici&pn=Saad%20Siddiqui"
-                size={200}
+                size={screenHeight * 0.25}
                 backgroundColor="white"
                 color="black"
               />
             </View>
-            
+
             {/* Center Logo Overlay */}
             <View style={styles.centerLogo}>
-                <View style={styles.logoCircle}>
-                   {/* Simplified GPay Logo representation */}
-                   <View style={styles.gLogo}>
-                       <View style={[styles.gBar, { backgroundColor: '#EA4335', top: 0, left: 0 }]} />
-                       <View style={[styles.gBar, { backgroundColor: '#4285F4', top: 0, right: 0 }]} />
-                       <View style={[styles.gBar, { backgroundColor: '#34A853', bottom: 0, left: 0 }]} />
-                       <View style={[styles.gBar, { backgroundColor: '#FBBC05', bottom: 0, right: 0 }]} />
-                       <View style={styles.gInner} />
-                   </View>
-                </View>
+              <View style={styles.logoCircle}>
+                {/* Simplified GPay Logo representation */}
+                <Image
+                  source={require("../assets/images/google-pay-icon.png")}
+                  style={styles.gPayLogo}
+                  resizeMode="contain"
+                />
+              </View>
             </View>
           </View>
 
-          <Text style={styles.scanText}>Scan to pay with any UPI app</Text>
+          <Text
+            style={[styles.scanText, { color: theme.colors.onSurfaceVariant }]}
+          >
+            Scan to pay with any UPI app
+          </Text>
 
           <View style={styles.bankInfo}>
             <View style={styles.bankLogo}>
-                <MaterialCommunityIcons name="star" size={14} color="#D84315" />
+              <MaterialCommunityIcons
+                name="star"
+                size={14}
+                color={theme.colors.error}
+              />
             </View>
-            <Text style={styles.bankText}>Bank of India 4983</Text>
+            <Text
+              style={{
+                color: theme.colors.onSurface,
+                fontSize: 16,
+                fontWeight: "500",
+              }}
+            >
+              Bank of India 4983
+            </Text>
           </View>
 
           <TouchableOpacity style={styles.upiIdContainer}>
-            <Text style={styles.upiLabel}>UPI ID: </Text>
-            <Text style={styles.upiValue}>saadsiddiqui927@okicici</Text>
+            <Text
+              style={{ color: theme.colors.onSurfaceVariant, fontSize: 14 }}
+            >
+              UPI ID:{" "}
+            </Text>
+            <Text style={{ color: theme.colors.onSurface, fontSize: 14 }}>
+              saadsiddiqui927@okicici
+            </Text>
             <MaterialCommunityIcons
               name="content-copy"
               size={16}
-              color="#b0b0b0"
+              color={theme.colors.onSurfaceVariant}
               style={{ marginLeft: 8 }}
             />
           </TouchableOpacity>
         </Surface>
 
         <TouchableOpacity style={styles.switchQrContainer}>
-          <Text style={styles.switchQrText}>
-            Want to join UPI Circle? <Text style={styles.switchLink}>Switch QR</Text>
+          <Text style={{ color: theme.colors.onSurfaceVariant, fontSize: 14 }}>
+            Want to join UPI Circle?{" "}
+            <Text
+              style={{
+                color: theme.colors.primary,
+                textDecorationLine: "underline",
+              }}
+            >
+              Switch QR
+            </Text>
           </Text>
         </TouchableOpacity>
       </ScrollView>
 
       {/* Footer Buttons */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.outlineButton}>
+        <TouchableOpacity
+          style={[styles.outlineButton, { borderColor: theme.colors.outline }]}
+        >
           <MaterialCommunityIcons
             name="qrcode-scan"
             size={20}
-            color="#a8c7fa"
+            color={theme.colors.primary}
             style={{ marginRight: 8 }}
           />
-          <Text style={styles.outlineButtonText}>Open scanner</Text>
+          <Text
+            style={{
+              color: theme.colors.primary,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Open scanner
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.filledButton}>
+        <TouchableOpacity
+          style={[
+            styles.filledButton,
+            { backgroundColor: theme.colors.primary },
+          ]}
+        >
           <MaterialCommunityIcons
             name="share-variant-outline"
             size={20}
-            color="#0b141a"
+            color={theme.colors.onPrimary}
             style={{ marginRight: 8 }}
           />
-          <Text style={styles.filledButtonText}>Share QR code</Text>
+          <Text
+            style={{
+              color: theme.colors.onPrimary,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Share QR code
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -166,6 +253,10 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 24,
   },
+  gPayLogo: {
+    width: 40,
+    height: 40,
+  },
   userInfo: {
     flexDirection: "row",
     alignItems: "center",
@@ -174,15 +265,10 @@ const styles = StyleSheet.create({
   nameContainer: {
     marginLeft: 12,
   },
-  name: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "400",
-  },
   qrWrapper: {
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "relative",
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 16,
   },
   qrContainer: {
@@ -191,46 +277,44 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   centerLogo: {
-    position: 'absolute',
+    position: "absolute",
     width: 40,
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 5,
   },
   logoCircle: {
-      width: 32,
-      height: 32,
-      borderRadius: 16,
-      backgroundColor: '#f1f3f4',
-      justifyContent: 'center',
-      alignItems: 'center',
-      overflow: 'hidden'
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
   },
   gLogo: {
-      width: 20,
-      height: 20,
-      position: 'relative',
+    width: 20,
+    height: 20,
+    position: "relative",
   },
   gBar: {
-      width: 10,
-      height: 10,
-      position: 'absolute',
+    width: 10,
+    height: 10,
+    position: "absolute",
   },
   gInner: {
-      width: 12,
-      height: 12,
-      backgroundColor: '#f1f3f4',
-      position: 'absolute',
-      top: 4,
-      left: 4,
-      borderRadius: 6,
-      zIndex: 10,
+    width: 12,
+    height: 12,
+    backgroundColor: "#f1f3f4",
+    position: "absolute",
+    top: 4,
+    left: 4,
+    borderRadius: 6,
+    zIndex: 10,
   },
   scanText: {
-    color: "#e3e3e3",
     fontSize: 14,
     marginTop: 8,
     marginBottom: 24,
@@ -241,41 +325,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   bankLogo: {
-      width: 32,
-      height: 20,
-      backgroundColor: 'white',
-      borderRadius: 2,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginRight: 8,
-  },
-  bankText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "500",
+    width: 32,
+    height: 20,
+    backgroundColor: "white",
+    borderRadius: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 8,
   },
   upiIdContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
-  upiLabel: {
-    color: "#b0b0b0",
-    fontSize: 14,
-  },
-  upiValue: {
-    color: "#e3e3e3",
-    fontSize: 14,
-  },
   switchQrContainer: {
     marginBottom: 40,
-  },
-  switchQrText: {
-    color: "#e3e3e3",
-    fontSize: 14,
-  },
-  switchLink: {
-    color: "#a8c7fa",
-    textDecorationLine: "underline",
   },
   footer: {
     flexDirection: "row",
@@ -290,14 +353,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: "#5f6368",
     borderRadius: 24,
     marginRight: 8,
-  },
-  outlineButtonText: {
-    color: "#a8c7fa",
-    fontSize: 14,
-    fontWeight: "500",
   },
   filledButton: {
     flex: 1,
@@ -305,13 +362,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 12,
-    backgroundColor: "#a8c7fa",
     borderRadius: 24,
     marginLeft: 8,
-  },
-  filledButtonText: {
-    color: "#0b141a",
-    fontSize: 14,
-    fontWeight: "500",
   },
 });
