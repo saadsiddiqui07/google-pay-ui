@@ -1,5 +1,6 @@
 import Option from "@/components/option";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import React, { useState } from "react";
 import {
@@ -169,6 +170,7 @@ Rewards.displayName = "Rewards";
 
 const Header = React.memo(() => {
   const theme = useTheme();
+  const router = useRouter();
   const [menuVisible, setMenuVisible] = useState(false);
 
   const openMenu = () => setMenuVisible(true);
@@ -227,7 +229,11 @@ const Header = React.memo(() => {
       </View>
 
       {/* Avatar Section */}
-      <View style={[styles.avatarContainer, { top: screenHeight / 7.5 }]}>
+      <TouchableOpacity
+        style={[styles.avatarContainer, { top: screenHeight / 7.5 }]}
+        activeOpacity={0.9}
+        onPress={() => router.push("/user-qr-code")}
+      >
         <Avatar.Text
           size={80}
           label="S"
@@ -237,7 +243,7 @@ const Header = React.memo(() => {
         <View style={styles.qrBadge}>
           <MaterialCommunityIcons name="qrcode" size={20} color="white" />
         </View>
-      </View>
+      </TouchableOpacity>
 
       <View
         style={{
