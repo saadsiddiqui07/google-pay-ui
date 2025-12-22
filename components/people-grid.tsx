@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   LayoutAnimation,
@@ -25,6 +26,7 @@ interface PeopleGridProps {
 
 export default function PeopleGrid({ people }: PeopleGridProps) {
   const theme = useTheme();
+  const router = useRouter();
   const [expanded, setExpanded] = useState(false);
 
   // Initial view: 7 people + "More" button (8 items total)
@@ -39,6 +41,13 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
   };
 
   const visiblePeople = expanded ? people.slice(0, 15) : people.slice(0, 7);
+
+  const handlePersonPress = (person: Person) => {
+    router.push({
+      pathname: "/pay-history",
+      params: { name: person.name, image: person.image || "" },
+    });
+  };
 
   const renderPerson = (person: Person, index: number) => {
     const isImageAvailable = !!person.image;
@@ -64,7 +73,11 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
     const textColor = "#FFFFFF";
 
     return (
-      <View key={index} style={styles.itemContainer}>
+      <TouchableOpacity
+        key={index}
+        style={styles.itemContainer}
+        onPress={() => handlePersonPress(person)}
+      >
         <View style={styles.avatarContainer}>
           {isImageAvailable ? (
             <Avatar.Image size={56} source={{ uri: person.image! }} />
@@ -85,7 +98,7 @@ export default function PeopleGrid({ people }: PeopleGridProps) {
         >
           {person.name}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
