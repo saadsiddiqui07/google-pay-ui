@@ -53,9 +53,6 @@ export default function PaymentInputScreen() {
         return;
     }
     
-    // Check if we are deleting (length is smaller)
-    const isDeleting = text.length < amount.length;
-    
     if (text === "") {
         setAmount("");
         return;

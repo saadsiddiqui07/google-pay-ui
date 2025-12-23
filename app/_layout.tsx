@@ -79,6 +79,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
           <Stack.Screen name="search" options={{ headerShown: false, animation: 'slide_from_right' }} />
+          <Stack.Screen name="payment-input" options={{ headerShown: false, animation: 'slide_from_bottom' }} />
         </Stack>
         <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </NavigationThemeProvider>
