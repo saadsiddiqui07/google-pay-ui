@@ -2,8 +2,10 @@ import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultThem
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider, adaptNavigationTheme } from 'react-native-paper';
 import 'react-native-reanimated';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 // Define the custom Light Theme
 const gpayLightTheme = {
@@ -73,16 +75,18 @@ export default function RootLayout() {
   const navigationTheme = colorScheme === 'dark' ? DarkTheme : LightTheme;
 
   return (
-    <PaperProvider theme={theme}>
-      <NavigationThemeProvider value={navigationTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-          <Stack.Screen name="search" options={{ headerShown: false, animation: 'slide_from_right' }} />
-          <Stack.Screen name="payment-input" options={{ headerShown: false, animation: 'slide_from_bottom' }} />
-        </Stack>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      </NavigationThemeProvider>
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PaperProvider theme={theme}>
+        <NavigationThemeProvider value={navigationTheme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+            <Stack.Screen name="search" options={{ headerShown: false, animation: 'slide_from_right' }} />
+            <Stack.Screen name="payment-input" options={{ headerShown: false, animation: 'slide_from_bottom' }} />
+          </Stack>
+          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        </NavigationThemeProvider>
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 }

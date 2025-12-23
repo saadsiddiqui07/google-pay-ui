@@ -1,16 +1,33 @@
+import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useRef, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Avatar, FAB, IconButton, Text, useTheme } from "react-native-paper";
+import { Avatar, Button, FAB, Icon, IconButton, RadioButton, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const BANKS = [
+  {
+    id: "1",
+    name: "HDFC Bank",
+    account: "•••• 4321",
+    icon: "bank",
+  },
+  {
+    id: "2",
+    name: "State Bank of India",
+    account: "•••• 8765",
+    icon: "bank-outline",
+  },
+];
 
 /**
  * Screen for payment input.
@@ -26,6 +43,10 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
   const phone = "+91 00000 00000";
 
   const [amount, setAmount] = useState("");
+  const [selectedBankId, setSelectedBankId] = useState(BANKS[0].id);
+
+  // ref
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const formatAmount = useCallback((value: string) => {
     // Remove all non-numeric characters except decimal
@@ -74,12 +95,37 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
   }, [amount, formatAmount]);
 
   const handlePay = useCallback(() => {
-    console.log("Pay", amount);
+    if (amount && amount !== "0") {
+      Keyboard.dismiss();
+      bottomSheetModalRef.current?.expand();
+    }
   }, [amount]);
+
+  const handleConfirmPay = useCallback(() => {
+    console.log("Processing payment", {
+        amount,
+        bankId: selectedBankId,
+        recipient: name
+    });
+    bottomSheetModalRef.current?.close();
+    // Navigate to success or perform actual API call here
+  }, [amount, selectedBankId, name]);
 
   const handleBack = useCallback(() => {
     router.back();
   }, [router]);
+
+  // callbacks
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+      />
+    ),
+    []
+  );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -155,6 +201,61 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
             ) : null}
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
+
+      {/* Payment Confirmation Bottom Sheet */}
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        enableDynamicSizing={true}
+        enablePanDownToClose={true}
+        backdropComponent={renderBackdrop}
+        backgroundStyle={{ backgroundColor: theme.colors.surface }}
+        handleIndicatorStyle={{ backgroundColor: theme.colors.outline }}
+      >
+        <BottomSheetView style={styles.bottomSheetContent}>
+            <Text variant="titleLarge" style={{ marginBottom: 20, textAlign: 'center', color: theme.colors.onSurface }}>
+                Choose account to pay
+            </Text>
+
+            {BANKS.map((bank) => (
+                <TouchableOpacity
+                    key={bank.id}
+                    onPress={() => setSelectedBankId(bank.id)}
+                    style={[
+                        styles.bankRow,
+                        selectedBankId === bank.id && { backgroundColor: theme.colors.secondaryContainer + '30' }
+                    ]}
+                >
+                    <View style={styles.bankIconContainer}>
+                        <Icon source={bank.icon} size={24} color={theme.colors.primary} />
+                    </View>
+                    <View style={styles.bankInfo}>
+                        <Text variant="titleMedium" style={{ color: theme.colors.onSurface }}>
+                            {bank.name}
+                        </Text>
+                        <Text variant="bodyMedium" style={{ color: theme.colors.onSurfaceVariant }}>
+                            {bank.account}
+                        </Text>
+                    </View>
+                    <RadioButton
+                        value={bank.id}
+                        status={selectedBankId === bank.id ? 'checked' : 'unchecked'}
+                        onPress={() => setSelectedBankId(bank.id)}
+                        color={theme.colors.primary}
+                    />
+                </TouchableOpacity>
+            ))}
+            
+            <Button
+                mode="contained"
+                onPress={handleConfirmPay}
+                style={styles.payButton}
+                contentStyle={{ paddingVertical: 8 }}
+            >
+                Confirm and pay ₹{amount}
+            </Button>
+        </BottomSheetView>
+      </BottomSheetModal>
     </SafeAreaView>
   );
 });
@@ -199,5 +300,33 @@ const styles = StyleSheet.create({
       bottom: 0,
       justifyContent: 'flex-end',
       alignItems: 'flex-end',
-  }
+  },
+  bottomSheetContent: {
+    padding: 24,
+  },
+  bankRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  bankIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#f0f0f0', // Light grey background for icon
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  bankInfo: {
+    flex: 1,
+  },
+  payButton: {
+    marginTop: 24,
+    borderRadius: 24,
+    marginBottom: 20,
+  },
 });
