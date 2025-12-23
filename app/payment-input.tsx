@@ -1,4 +1,6 @@
 import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetView,
@@ -123,6 +125,16 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
     router.back();
   }, [router]);
 
+  const renderBackdrop = (props: BottomSheetBackdropProps) => (
+  <BottomSheetBackdrop
+      {...props}
+      appearsOnIndex={0}
+      disappearsOnIndex={-1}
+      opacity={theme.dark ? 0.55 : 0.38} // controls how dull the background is
+  />
+);
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -238,6 +250,7 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
       </TouchableWithoutFeedback>
       <BottomSheetModalProvider>
         <BottomSheetModal
+          backdropComponent={renderBackdrop}
           ref={bottomSheetRef}
           enableDynamicSizing
           backgroundStyle={{ backgroundColor: theme.colors.surfaceVariant }}
