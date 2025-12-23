@@ -124,11 +124,20 @@ export default function PaymentSuccessScreen() {
             {name}
           </Text>
         </Animated.View>
-        <Animated.View style={[animatedButtonOpacity, { position: "absolute", bottom: 18 }]}>
+        <Animated.View style={[animatedButtonOpacity, { position: "absolute", bottom: 18, flexDirection: "row", gap: 12 }]}>
+          <Button
+            mode="outlined"
+            onPress={() => {}}
+            style={{ width: windowWidth * 0.4, borderColor: theme.colors.primary }}
+            textColor={theme.colors.primary}
+            icon="share-variant"
+          >
+            Share
+          </Button>
           <Button
             mode="contained"
             onPress={handleDone}
-            style={{ width: windowWidth * 0.5 }}
+            style={{ width: windowWidth * 0.4 }}
             buttonColor={theme.colors.primary}
           >
             Done
