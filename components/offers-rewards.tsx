@@ -1,10 +1,18 @@
 import QuickAction from '@/components/quick-action';
 import { OFFERS_DATA } from '@/constants/home-data';
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-export default function OffersRewards() {
+/**
+ * Component to display offers and rewards.
+ * Optimized with memo and callbacks.
+ */
+const OffersRewards = memo(function OffersRewards() {
+
+  const handlePress = useCallback(() => {
+    // Handle press
+  }, []);
 
   return (
     <View>
@@ -27,10 +35,12 @@ export default function OffersRewards() {
             isImage={item.isImage}
             variant="circular"
             hasNotification={item.hasNotification}
-            onPress={() => {}}
+            onPress={handlePress}
           />
         ))}
       </View>
     </View>
   );
-}
+});
+
+export default OffersRewards;

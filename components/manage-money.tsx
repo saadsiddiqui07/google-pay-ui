@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon, Text, useTheme } from "react-native-paper";
 
@@ -9,7 +9,11 @@ const CARD_GAP = 16;
 const PADDING = 32; // 16 * 2 (horizontal padding from the parent container)
 const CARD_WIDTH = (width - PADDING - CARD_GAP) / 2;
 
-export default function ManageMoney({ variant = "home" }: { variant?: "home" | "money" }) {
+/**
+ * Component to display money management options (Loans, etc.).
+ * Optimized with memo.
+ */
+const ManageMoney = memo(function ManageMoney({ variant = "home" }: { variant?: "home" | "money" }) {
   const theme = useTheme();
 
   const onMoneyScreen = variant === "money";
@@ -92,7 +96,9 @@ export default function ManageMoney({ variant = "home" }: { variant?: "home" | "
 
     </View>
   );
-}
+});
+
+export default ManageMoney;
 
 const styles = StyleSheet.create({
   card: {

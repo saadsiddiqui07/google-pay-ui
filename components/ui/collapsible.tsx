@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState, memo, useCallback } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -7,15 +7,23 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
+/**
+ * Collapsible component.
+ * Optimized with memo and callbacks.
+ */
+export const Collapsible = memo(function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? 'light';
+
+  const toggleOpen = useCallback(() => {
+    setIsOpen((value) => !value);
+  }, []);
 
   return (
     <ThemedView>
       <TouchableOpacity
         style={styles.heading}
-        onPress={() => setIsOpen((value) => !value)}
+        onPress={toggleOpen}
         activeOpacity={0.8}>
         <IconSymbol
           name="chevron.right"
@@ -30,7 +38,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
       {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
     </ThemedView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   heading: {

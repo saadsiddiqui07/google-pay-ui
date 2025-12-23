@@ -1,11 +1,15 @@
 import { PEOPLE } from '@/constants/home-data';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Appbar, Avatar, Text, useTheme } from 'react-native-paper';
 
-export default function SearchScreen() {
+/**
+ * Screen for searching people.
+ * Optimized with memo and callbacks.
+ */
+const SearchScreen = memo(function SearchScreen() {
   const theme = useTheme();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -16,7 +20,11 @@ export default function SearchScreen() {
     );
   }, [searchQuery]);
 
-  const renderItem = ({ item }: { item: typeof PEOPLE[0] }) => {
+  const handleBack = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  const renderItem = useCallback(({ item }: { item: typeof PEOPLE[0] }) => {
     const initials = item.name.charAt(0).toUpperCase();
     const dummyNumber = "+91 98765 43210"; // Placeholder number as requested
 
@@ -52,12 +60,12 @@ export default function SearchScreen() {
         </View>
       </TouchableOpacity>
     );
-  };
+  }, [router, theme]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Appbar.Header style={{ backgroundColor: theme.colors.background }}>
-        <Appbar.BackAction onPress={() => router.back()} />
+        <Appbar.BackAction onPress={handleBack} />
         <View style={[styles.searchContainer, { backgroundColor: theme.dark ? '#303134' : '#F1F3F4' }]}>
           <MaterialIcons name="search" size={24} color={theme.colors.onSurfaceVariant} style={{ marginRight: 8 }} />
           <TextInput
@@ -85,7 +93,9 @@ export default function SearchScreen() {
       </View>
     </View>
   );
-}
+});
+
+export default SearchScreen;
 
 const styles = StyleSheet.create({
   searchContainer: {

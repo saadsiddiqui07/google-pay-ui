@@ -1,14 +1,26 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { memo, useCallback } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function HomeHeader() {
+/**
+ * Header component for the Home screen.
+ * Optimized with memo and callbacks.
+ */
+const HomeHeader = memo(function HomeHeader() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
+
+  const handleSearchPress = useCallback(() => {
+    router.push("/search");
+  }, [router]);
+
+  const handleProfilePress = useCallback(() => {
+    router.push("/profile");
+  }, [router]);
 
   return (
     <View
@@ -22,7 +34,7 @@ export default function HomeHeader() {
     >
       <View style={styles.contentContainer}>
         {/* Search Bar */}
-        <TouchableOpacity activeOpacity={0.9} style={{ flex: 1 }} onPress={() => router.push("/search")}>
+        <TouchableOpacity activeOpacity={0.9} style={{ flex: 1 }} onPress={handleSearchPress}>
           <Surface
             style={[
               styles.searchBar,
@@ -53,7 +65,7 @@ export default function HomeHeader() {
         </TouchableOpacity>
 
         {/* Profile Icon */}
-        <TouchableOpacity activeOpacity={0.8} style={styles.profileContainer} onPress={() => router.push("/profile")}>
+        <TouchableOpacity activeOpacity={0.8} style={styles.profileContainer} onPress={handleProfilePress}>
           <View
             style={[
               styles.avatarContainer,
@@ -70,7 +82,9 @@ export default function HomeHeader() {
       </View>
     </View>
   );
-}
+});
+
+export default HomeHeader;
 
 const styles = StyleSheet.create({
   container: {
