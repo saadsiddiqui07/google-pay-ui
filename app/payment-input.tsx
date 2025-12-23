@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -12,7 +12,11 @@ import {
 import { Avatar, FAB, IconButton, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function PaymentInputScreen() {
+/**
+ * Screen for payment input.
+ * Optimized with memo and callbacks.
+ */
+const PaymentInputScreen = memo(function PaymentInputScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const theme = useTheme();
@@ -23,7 +27,7 @@ export default function PaymentInputScreen() {
 
   const [amount, setAmount] = useState("");
 
-  const formatAmount = (value: string) => {
+  const formatAmount = useCallback((value: string) => {
     // Remove all non-numeric characters except decimal
     const cleanValue = value.replace(/[^0-9.]/g, "");
     
@@ -45,9 +49,9 @@ export default function PaymentInputScreen() {
     }
     
     return integerPart;
-  };
+  }, []);
 
-  const handleChangeText = (text: string) => {
+  const handleChangeText = useCallback((text: string) => {
     // If text ends with a decimal and we already have one, ignore
     if (text.endsWith(".") && amount.includes(".")) {
         return;
@@ -67,11 +71,15 @@ export default function PaymentInputScreen() {
     }
 
     setAmount(formatAmount(raw));
-  };
+  }, [amount, formatAmount]);
 
-  const handlePay = () => {
+  const handlePay = useCallback(() => {
     console.log("Pay", amount);
-  };
+  }, [amount]);
+
+  const handleBack = useCallback(() => {
+    router.back();
+  }, [router]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -82,7 +90,7 @@ export default function PaymentInputScreen() {
         <IconButton
           icon="close"
           size={24}
-          onPress={() => router.back()}
+          onPress={handleBack}
           iconColor={theme.colors.onSurface}
         />
         <IconButton icon="dots-vertical" size={24} iconColor={theme.colors.onSurface} />
@@ -149,7 +157,9 @@ export default function PaymentInputScreen() {
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );
-}
+});
+
+export default PaymentInputScreen;
 
 const styles = StyleSheet.create({
   header: {

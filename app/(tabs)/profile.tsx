@@ -262,7 +262,11 @@ const Header = React.memo(() => {
 
 Header.displayName = "Header";
 
-export default function ProfileScreen() {
+/**
+ * Screen to display user profile.
+ * Optimized with memo.
+ */
+const ProfileScreen = React.memo(function ProfileScreen() {
   return (
     <ScrollView
       style={styles.container}
@@ -285,7 +289,9 @@ export default function ProfileScreen() {
       </View>
     </ScrollView>
   );
-}
+});
+
+export default ProfileScreen;
 
 const PaymentMethodItem = React.memo(
   ({

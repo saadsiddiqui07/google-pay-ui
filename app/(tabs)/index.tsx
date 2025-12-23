@@ -12,11 +12,15 @@ import {
   PEOPLE,
   QUICK_ACTIONS,
 } from "@/constants/home-data";
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
 
-export default function HomeScreen() {
+/**
+ * Home screen component.
+ * Optimized with memo and callbacks.
+ */
+const HomeScreen = memo(function HomeScreen() {
   const theme = useTheme();
 
   const handleQuickActionPress = useCallback(() => {},
@@ -98,4 +102,6 @@ export default function HomeScreen() {
       </ScrollView>
     </View>
   );
-}
+});
+
+export default HomeScreen;

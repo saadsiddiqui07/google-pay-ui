@@ -1,11 +1,19 @@
 import QuickAction from '@/components/quick-action';
 import { BILLS_AND_RECHARGES_DATA } from '@/constants/home-data';
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Icon, Text, useTheme } from 'react-native-paper';
 
-export default function BillsRecharges() {
+/**
+ * Component to display Bills and Recharges options.
+ * optimized with memo and callbacks.
+ */
+const BillsRecharges = memo(function BillsRecharges() {
   const theme = useTheme();
+
+  const handlePress = useCallback(() => {
+    // Handle press
+  }, []);
 
   return (
     <View>
@@ -38,11 +46,13 @@ export default function BillsRecharges() {
               iconColor={item.iconColor}
               isImage={item.isImage}
               variant="circular"
-              onPress={() => {}}
+              onPress={handlePress}
             />
           </View>
         ))}
       </View>
     </View>
   );
-}
+});
+
+export default BillsRecharges;

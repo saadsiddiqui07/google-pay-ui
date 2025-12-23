@@ -1,7 +1,12 @@
 import { SymbolView, SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { StyleProp, ViewStyle } from 'react-native';
+import { memo } from 'react';
 
-export function IconSymbol({
+/**
+ * Icon symbol component for iOS using SF Symbols.
+ * Optimized with memo.
+ */
+export const IconSymbol = memo(function IconSymbol({
   name,
   size = 24,
   color,
@@ -29,4 +34,4 @@ export function IconSymbol({
       ]}
     />
   );
-}
+});

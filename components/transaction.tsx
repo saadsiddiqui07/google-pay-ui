@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 
@@ -14,7 +14,11 @@ interface TransactionProps {
   };
 }
 
-export default function Transaction({ item }: TransactionProps) {
+/**
+ * Component to display a single transaction item.
+ * Optimized with memo.
+ */
+const Transaction = memo(function Transaction({ item }: TransactionProps) {
   const theme = useTheme();
 
   return (
@@ -61,7 +65,9 @@ export default function Transaction({ item }: TransactionProps) {
       </View>
     </View>
   );
-}
+});
+
+export default Transaction;
 
 const styles = StyleSheet.create({
   container: {

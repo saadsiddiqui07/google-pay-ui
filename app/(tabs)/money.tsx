@@ -263,7 +263,11 @@ const Header = React.memo(() => {
 
 Header.displayName = 'Header';
 
-export default function MoneyScreen() {
+/**
+ * Screen to display money related information.
+ * Optimized with memo.
+ */
+const MoneyScreen = React.memo(function MoneyScreen() {
   return (
     <ScrollView
       style={styles.container}
@@ -287,7 +291,9 @@ export default function MoneyScreen() {
       </View>
     </ScrollView>
   );
-}
+});
+
+export default MoneyScreen;
 
 const styles = StyleSheet.create({
   container: {

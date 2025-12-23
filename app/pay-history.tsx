@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { memo, useCallback } from "react";
 import {
     KeyboardAvoidingView,
     Platform,
@@ -13,7 +13,11 @@ import {
 import { Avatar, Button, IconButton, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function PayHistoryScreen() {
+/**
+ * Screen to display payment history with a user.
+ * Optimized with memo and callbacks.
+ */
+const PayHistoryScreen = memo(function PayHistoryScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const theme = useTheme();
@@ -27,6 +31,14 @@ export default function PayHistoryScreen() {
   const initials = name.charAt(0).toUpperCase();
   const avatarColor = "#8AB4F8"; // Hardcoded for now or pass via params if needed
 
+  const handleBack = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  const handlePay = useCallback(() => {
+    router.push({ pathname: "/payment-input", params: { name, image } });
+  }, [router, name, image]);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -37,7 +49,7 @@ export default function PayHistoryScreen() {
           <IconButton
             icon="arrow-left"
             size={24}
-            onPress={() => router.back()}
+            onPress={handleBack}
             iconColor={theme.colors.onBackground}
           />
           <View style={{ marginRight: 12 }}>
@@ -167,7 +179,7 @@ export default function PayHistoryScreen() {
         >
           <Button
             mode="contained"
-            onPress={() => router.push({ pathname: "/payment-input", params: { name, image } })}
+            onPress={handlePay}
             style={{ borderRadius: 24, paddingHorizontal: 16 }}
             buttonColor={theme.colors.primary}
           >
@@ -192,7 +204,9 @@ export default function PayHistoryScreen() {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-}
+});
+
+export default PayHistoryScreen;
 
 const styles = StyleSheet.create({
   header: {

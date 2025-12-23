@@ -1,10 +1,14 @@
 import { Href, Link } from 'expo-router';
 import { openBrowserAsync, WebBrowserPresentationStyle } from 'expo-web-browser';
-import { type ComponentProps } from 'react';
+import { memo, type ComponentProps } from 'react';
 
 type Props = Omit<ComponentProps<typeof Link>, 'href'> & { href: Href & string };
 
-export function ExternalLink({ href, ...rest }: Props) {
+/**
+ * External link component.
+ * Optimized with memo.
+ */
+export const ExternalLink = memo(function ExternalLink({ href, ...rest }: Props) {
   return (
     <Link
       target="_blank"
@@ -22,4 +26,4 @@ export function ExternalLink({ href, ...rest }: Props) {
       }}
     />
   );
-}
+});

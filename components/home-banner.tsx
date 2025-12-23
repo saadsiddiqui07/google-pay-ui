@@ -1,11 +1,15 @@
 import LottieView from "lottie-react-native";
-import React from "react";
+import React, { memo } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import HomeHeader from "./home-header";
 
 const { height } = Dimensions.get("window");
 
-export default function HomeBanner() {
+/**
+ * Component to display the home banner with animation.
+ * Optimized with memo.
+ */
+const HomeBanner = memo(function HomeBanner() {
   return (
     <View style={{ height: height * 0.25, marginBottom:12 }}>
       <LottieView
@@ -21,7 +25,9 @@ export default function HomeBanner() {
       </View>
     </View>
   );
-}
+});
+
+export default HomeBanner;
 
 const styles = StyleSheet.create({
   background: {

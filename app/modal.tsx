@@ -1,10 +1,15 @@
 import { Link } from 'expo-router';
+import { memo } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
-export default function ModalScreen() {
+/**
+ * Modal screen component.
+ * Optimized with memo.
+ */
+const ModalScreen = memo(function ModalScreen() {
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="title">This is a modal</ThemedText>
@@ -13,7 +18,9 @@ export default function ModalScreen() {
       </Link>
     </ThemedView>
   );
-}
+});
+
+export default ModalScreen;
 
 const styles = StyleSheet.create({
   container: {
