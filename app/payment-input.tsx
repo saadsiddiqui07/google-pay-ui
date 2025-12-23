@@ -56,14 +56,14 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const theme = useTheme();
-
+ 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const name = (params.name as string) || "User";
   const image = params.image as string;
-  const phone = "+91 00000 00000";
+  const phone = "+91 96228 35745";
 
   const [amount, setAmount] = useState("");
   const [selectedBank, setSelectedBank] = useState("1");
@@ -88,7 +88,7 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
       setIsLoading(false);
       closeBottomSheet();
       router.push({ pathname: "/payment-success", params: { amount, name } });
-    }, 2000);
+    }, 2500);
   }, [amount, closeBottomSheet, router, selectedBank, name]);
 
   const formatAmount = useCallback((value: string) => {
@@ -408,14 +408,13 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
   currencySymbol: {
-    fontSize: 56,
+    fontSize: 48,
     fontWeight: "400",
     marginRight: 4,
   },
   amountInput: {
     fontSize: 56,
-    fontWeight: "400",
-    minWidth: 50,
+    fontWeight: "800",
     textAlign: "center",
   },
   noteContainer: {
