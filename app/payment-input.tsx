@@ -6,16 +6,25 @@ import {
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { memo, useCallback, useRef, useState } from "react";
 import {
-  Button,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Avatar, FAB, IconButton, Text, useTheme } from "react-native-paper";
+import {
+  Avatar,
+  FAB,
+  IconButton,
+  Button as PaperButton,
+  RadioButton,
+  Text,
+  useTheme,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 /**
@@ -42,6 +51,24 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
   const phone = "+91 00000 00000";
 
   const [amount, setAmount] = useState("");
+  const [selectedBank, setSelectedBank] = useState("1");
+
+  const banks = [
+    {
+      id: "1",
+      name: "Axis Bank",
+      account: "••••6784",
+      upi: "username@axis.com",
+      logo: require("../assets/images/axis-bank.png"),
+    },
+    {
+      id: "2",
+      name: "HDFC Bank",
+      account: "••••4321",
+      upi: "username@hdfc.com",
+      logo: require("../assets/images/bank-logo.png"),
+    },
+  ];
 
   const formatAmount = useCallback((value: string) => {
     // Remove all non-numeric characters except decimal
@@ -91,11 +118,6 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
     },
     [amount, formatAmount]
   );
-
-  const handlePay = useCallback(() => {
-    console.log("Pay", amount);
-    openBottomSheet();
-  }, [amount, openBottomSheet]);
 
   const handleBack = useCallback(() => {
     router.back();
@@ -180,7 +202,10 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
             <View
               style={[
                 styles.noteContainer,
-                { backgroundColor: theme.colors.surfaceVariant },
+                {
+                  backgroundColor: theme.colors.surfaceVariant,
+                  paddingVertical: Platform.OS === "ios" ? 12 : 0,
+                },
               ]}
             >
               <TextInput
@@ -195,7 +220,7 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
             </View>
           </View>
 
-          {/* Pay Button - Only show if amount is entered */}
+          {/* Pay Button - Triggers Bottom Sheet */}
           {amount && amount !== "0" ? (
             <View style={styles.fabContainer}>
               <FAB
@@ -205,23 +230,96 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
                   borderRadius: 16,
                 }}
                 color={theme.colors.onPrimary}
-                onPress={handlePay}
+                onPress={openBottomSheet}
               />
             </View>
           ) : null}
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
       <BottomSheetModalProvider>
-        <BottomSheetModal ref={bottomSheetRef} enableDynamicSizing>
+        <BottomSheetModal
+          ref={bottomSheetRef}
+          enableDynamicSizing
+          backgroundStyle={{ backgroundColor: theme.colors.surfaceVariant }}
+          handleIndicatorStyle={{
+            backgroundColor: theme.colors.inverseSurface,
+          }}
+        >
           <BottomSheetView
             style={{
-              flex: 1,
-              padding: 36,
-              alignItems: "center",
+              paddingBottom: 16,
             }}
           >
-            <Text>Bank payments</Text>
-            <Button title="Close" onPress={closeBottomSheet} />
+            <View
+              style={{
+                padding: 16,
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.colors.onSurfaceVariant,
+                  fontSize: 12,
+                  marginBottom: 12,
+                  fontWeight: "bold",
+                  paddingHorizontal: 16,
+                }}
+              >
+                CHOOSE ACCOUNT TO PAY
+              </Text>
+
+              {banks.map((bank) => (
+                <TouchableOpacity
+                  key={bank.id}
+                  style={[styles.bankRow]}
+                  onPress={() => setSelectedBank(bank.id)}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      source={bank.logo}
+                      style={styles.bankLogo}
+                      resizeMode="contain"
+                    />
+                    <View style={{ marginLeft: 12 }}>
+                      <Text
+                        variant="bodyLarge"
+                        style={{
+                          color: theme.colors.onSurface,
+                          fontWeight: "500",
+                        }}
+                      >
+                        {bank.name} {bank.account}
+                      </Text>
+                      <Text
+                        variant="bodySmall"
+                        style={{ color: theme.colors.onSurfaceVariant }}
+                      >
+                        {bank.upi}
+                      </Text>
+                    </View>
+                  </View>
+                  <RadioButton
+                    value={bank.id}
+                    status={selectedBank === bank.id ? "checked" : "unchecked"}
+                    onPress={() => setSelectedBank(bank.id)}
+                    color={theme.colors.primary}
+                  />
+                </TouchableOpacity>
+              ))}
+
+              <View style={{ marginVertical: 8 }}>
+                <PaperButton
+                  mode="contained"
+                  onPress={closeBottomSheet}
+                  style={{ borderRadius: 24 }}
+                  contentStyle={{ height: 48 }}
+                  icon="lock"
+                  buttonColor={theme.colors.primary}
+                  textColor={theme.colors.onPrimary}
+                >
+                  Pay securely ₹{amount}
+                </PaperButton>
+              </View>
+            </View>
           </BottomSheetView>
         </BottomSheetModal>
       </BottomSheetModalProvider>
@@ -255,7 +353,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   noteContainer: {
-    paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 12,
     minWidth: 150,
@@ -269,5 +366,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "flex-end",
     alignItems: "flex-end",
+  },
+  bankRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    // paddingHorizontal: 16,
+  },
+  bankLogo: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#eee",
   },
 });
