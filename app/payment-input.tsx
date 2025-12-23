@@ -1,6 +1,12 @@
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React, { memo, useCallback, useState } from "react";
 import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import React, { memo, useCallback, useRef, useState } from "react";
+import {
+  Button,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -21,6 +27,16 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
   const params = useLocalSearchParams();
   const theme = useTheme();
 
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+  const openBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.present();
+  }, []);
+
+  const closeBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.close();
+  }, []);
+
   const name = (params.name as string) || "User";
   const image = params.image as string;
   const phone = "+91 00000 00000";
@@ -30,52 +46,56 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
   const formatAmount = useCallback((value: string) => {
     // Remove all non-numeric characters except decimal
     const cleanValue = value.replace(/[^0-9.]/g, "");
-    
+
     // Split into integer and decimal parts
     const parts = cleanValue.split(".");
-    
+
     // Handle integer part formatting (Indian Numbering System)
     let integerPart = parts[0];
     if (integerPart.length > 3) {
       const lastThree = integerPart.substring(integerPart.length - 3);
       const otherNumbers = integerPart.substring(0, integerPart.length - 3);
-      integerPart = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+      integerPart =
+        otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
     }
-    
+
     // Reassemble
     if (parts.length > 1) {
       // Limit decimal to 2 digits
       return `${integerPart}.${parts[1].slice(0, 2)}`;
     }
-    
+
     return integerPart;
   }, []);
 
-  const handleChangeText = useCallback((text: string) => {
-    // If text ends with a decimal and we already have one, ignore
-    if (text.endsWith(".") && amount.includes(".")) {
+  const handleChangeText = useCallback(
+    (text: string) => {
+      // If text ends with a decimal and we already have one, ignore
+      if (text.endsWith(".") && amount.includes(".")) {
         return;
-    }
-    
-    if (text === "") {
+      }
+
+      if (text === "") {
         setAmount("");
         return;
-    }
+      }
 
-    // Get raw number for processing
-    const raw = text.replace(/,/g, "");
-    
-    // Prevent multiple decimals
-    if ((raw.match(/\./g) || []).length > 1) {
+      // Get raw number for processing
+      const raw = text.replace(/,/g, "");
+
+      // Prevent multiple decimals
+      if ((raw.match(/\./g) || []).length > 1) {
         return;
-    }
-
-    setAmount(formatAmount(raw));
-  }, [amount, formatAmount]);
+      }
+      setAmount(formatAmount(raw));
+    },
+    [amount, formatAmount]
+  );
 
   const handlePay = useCallback(() => {
     console.log("Pay", amount);
-  }, [amount]);
+    openBottomSheet();
+  }, [amount, openBottomSheet]);
 
   const handleBack = useCallback(() => {
     router.back();
@@ -83,8 +103,8 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-       <Stack.Screen options={{ headerShown: false }} />
-      
+      <Stack.Screen options={{ headerShown: false }} />
+
       {/* Header */}
       <View style={styles.header}>
         <IconButton
@@ -93,68 +113,118 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
           onPress={handleBack}
           iconColor={theme.colors.onSurface}
         />
-        <IconButton icon="dots-vertical" size={24} iconColor={theme.colors.onSurface} />
+        <IconButton
+          icon="dots-vertical"
+          size={24}
+          iconColor={theme.colors.onSurface}
+        />
       </View>
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView 
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
         >
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", marginTop: -60 }}>
-                {image ? (
-                <Avatar.Image size={64} source={{ uri: image }} />
-                ) : (
-                <Avatar.Text 
-                    size={64} 
-                    label={name.charAt(0).toUpperCase()} 
-                    style={{ backgroundColor: theme.colors.primaryContainer }}
-                    color={theme.colors.onPrimaryContainer}
-                />
-                )}
-                <Text variant="titleMedium" style={{ marginTop: 16, color: theme.colors.onSurface }}>
-                Paying {name}
-                </Text>
-                <Text variant="bodySmall" style={{ color: theme.colors.onSurfaceVariant, marginTop: 4 }}>
-                {phone}
-                </Text>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: -60,
+            }}
+          >
+            {image ? (
+              <Avatar.Image size={64} source={{ uri: image }} />
+            ) : (
+              <Avatar.Text
+                size={64}
+                label={name.charAt(0).toUpperCase()}
+                style={{ backgroundColor: theme.colors.primaryContainer }}
+                color={theme.colors.onPrimaryContainer}
+              />
+            )}
+            <Text
+              variant="titleMedium"
+              style={{ marginTop: 16, color: theme.colors.onSurface }}
+            >
+              Paying {name}
+            </Text>
+            <Text
+              variant="bodySmall"
+              style={{ color: theme.colors.onSurfaceVariant, marginTop: 4 }}
+            >
+              {phone}
+            </Text>
 
-                <View style={styles.inputContainer}>
-                    <Text style={[styles.currencySymbol, { color: theme.colors.onSurface }]}>₹</Text>
-                    <TextInput
-                        style={[styles.amountInput, { color: theme.colors.onSurface }]}
-                        value={amount}
-                        onChangeText={handleChangeText}
-                        keyboardType="decimal-pad"
-                        autoFocus
-                        placeholder="0"
-                        placeholderTextColor={theme.colors.onSurfaceVariant}
-                        cursorColor={theme.colors.primary}
-                    />
-                </View>
-
-                <View style={[styles.noteContainer, { backgroundColor: theme.colors.surfaceVariant }]}>
-                    <TextInput 
-                        placeholder="Add a note"
-                        placeholderTextColor={theme.colors.onSurfaceVariant}
-                        style={{ color: theme.colors.onSurface, fontSize: 16, textAlign: 'center' }}
-                    />
-                </View>
+            <View style={styles.inputContainer}>
+              <Text
+                style={[
+                  styles.currencySymbol,
+                  { color: theme.colors.onSurface },
+                ]}
+              >
+                ₹
+              </Text>
+              <TextInput
+                style={[styles.amountInput, { color: theme.colors.onSurface }]}
+                value={amount}
+                onChangeText={handleChangeText}
+                keyboardType="decimal-pad"
+                autoFocus
+                placeholder="0"
+                placeholderTextColor={theme.colors.onSurfaceVariant}
+                cursorColor={theme.colors.primary}
+              />
             </View>
 
-            {/* Pay Button - Only show if amount is entered */}
-            {amount && amount !== "0" ? (
-                <View style={styles.fabContainer}>
-                    <FAB
-                        icon="arrow-right"
-                        style={{ backgroundColor: theme.colors.primary, borderRadius: 16 }}
-                        color={theme.colors.onPrimary}
-                        onPress={handlePay}
-                    />
-                </View>
-            ) : null}
+            <View
+              style={[
+                styles.noteContainer,
+                { backgroundColor: theme.colors.surfaceVariant },
+              ]}
+            >
+              <TextInput
+                placeholder="Add a note"
+                placeholderTextColor={theme.colors.onSurfaceVariant}
+                style={{
+                  color: theme.colors.onSurface,
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              />
+            </View>
+          </View>
+
+          {/* Pay Button - Only show if amount is entered */}
+          {amount && amount !== "0" ? (
+            <View style={styles.fabContainer}>
+              <FAB
+                icon="arrow-right"
+                style={{
+                  backgroundColor: theme.colors.primary,
+                  borderRadius: 16,
+                }}
+                color={theme.colors.onPrimary}
+                onPress={handlePay}
+              />
+            </View>
+          ) : null}
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
+      <BottomSheetModalProvider>
+        <BottomSheetModal ref={bottomSheetRef} enableDynamicSizing>
+          <BottomSheetView
+            style={{
+              flex: 1,
+              padding: 36,
+              alignItems: "center",
+            }}
+          >
+            <Text>Bank payments</Text>
+            <Button title="Close" onPress={closeBottomSheet} />
+          </BottomSheetView>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </SafeAreaView>
   );
 });
@@ -168,9 +238,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 24,
   },
   currencySymbol: {
@@ -182,7 +252,7 @@ const styles = StyleSheet.create({
     fontSize: 56,
     fontWeight: "400",
     minWidth: 50,
-    textAlign: 'center',
+    textAlign: "center",
   },
   noteContainer: {
     paddingVertical: 12,
@@ -190,14 +260,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     minWidth: 150,
     maxWidth: 300,
-    alignItems: 'center',
+    alignItems: "center",
   },
   fabContainer: {
-      position: 'absolute',
-      margin: 16,
-      right: 0,
-      bottom: 0,
-      justifyContent: 'flex-end',
-      alignItems: 'flex-end',
-  }
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
 });
