@@ -74,8 +74,10 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
   }, []);
 
   const closeBottomSheet = useCallback(() => {
-    bottomSheetRef.current?.close();
-  }, []);
+    if (!isLoading) {
+      bottomSheetRef.current?.close();
+    }
+  }, [isLoading]);
 
   const handlePayment = useCallback(() => {
     if (!amount || !selectedBank) {
@@ -85,9 +87,9 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
     setTimeout(() => {
       setIsLoading(false);
       closeBottomSheet();
-      router.back();
-    }, 3000);
-  }, [amount, closeBottomSheet, router, selectedBank]);
+      router.push({ pathname: "/payment-success", params: { amount, name } });
+    }, 2000);
+  }, [amount, closeBottomSheet, router, selectedBank, name]);
 
   const formatAmount = useCallback((value: string) => {
     // Remove all non-numeric characters except decimal

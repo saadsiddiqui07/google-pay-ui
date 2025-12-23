@@ -81,6 +81,7 @@ export default function RootLayout() {
             <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
             <Stack.Screen name="search" options={{ headerShown: false, animation: 'slide_from_right' }} />
             <Stack.Screen name="payment-input" options={{ headerShown: false, animation: 'slide_from_bottom' }} />
+            <Stack.Screen name="payment-success" options={{ headerShown: false, animation: 'fade' }} />
           </Stack>
         </NavigationThemeProvider>
       </PaperProvider>
