@@ -1,6 +1,7 @@
 import React, { memo } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 import { Text, useTheme } from "react-native-paper";
+import { useRouter } from "expo-router";
 
 interface TransactionProps {
   item: {
@@ -20,10 +21,24 @@ interface TransactionProps {
  */
 const Transaction = memo(function Transaction({ item }: TransactionProps) {
   const theme = useTheme();
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.push({
+      pathname: "/transaction-history",
+      params: {
+        name: item.name,
+        amount: item.amount,
+        date: item.date,
+        // Passing basic info, details can be mocked or fetched
+      }
+    });
+  };
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={handlePress}>
       <View style={styles.leftContainer}>
+
         <View
           style={[
             styles.avatarContainer,
@@ -63,7 +78,7 @@ const Transaction = memo(function Transaction({ item }: TransactionProps) {
           {item.amount}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 });
 
