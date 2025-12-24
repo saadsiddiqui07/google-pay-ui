@@ -1,7 +1,7 @@
-import React, { memo } from "react";
-import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
-import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import React, { memo } from "react";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text, useTheme } from "react-native-paper";
 
 interface TransactionProps {
   item: {
@@ -30,6 +30,9 @@ const Transaction = memo(function Transaction({ item }: TransactionProps) {
         name: item.name,
         amount: item.amount,
         date: item.date,
+        image: item.image,
+        initial: item.initial,
+        color: item.color,
         // Passing basic info, details can be mocked or fetched
       }
     });
