@@ -1,8 +1,9 @@
 import ManageMoney from "@/components/manage-money";
 import Transaction from "@/components/transaction";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
 import LottieView from "lottie-react-native";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 
@@ -268,8 +269,23 @@ Header.displayName = 'Header';
  * Optimized with memo.
  */
 const MoneyScreen = React.memo(function MoneyScreen() {
+  const { scrollTo } = useLocalSearchParams();
+  const scrollViewRef = useRef<ScrollView>(null);
+  const [transactionsY, setTransactionsY] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (scrollTo === "history" && transactionsY !== null && scrollViewRef.current) {
+      // Add a small delay to ensure layout is ready or just smooth scroll
+      scrollViewRef.current.scrollTo({
+        y: CONTAINER_HEIGHT + transactionsY,
+        animated: true,
+      });
+    }
+  }, [scrollTo, transactionsY]);
+
   return (
     <ScrollView
+      ref={scrollViewRef}
       style={styles.container}
       contentContainerStyle={{ paddingBottom: 40 }}
       showsVerticalScrollIndicator={false}
@@ -287,7 +303,13 @@ const MoneyScreen = React.memo(function MoneyScreen() {
         </View>
 
         {/* Transaction History */}
-        <Transactions />
+        <View
+          onLayout={(event) => {
+            setTransactionsY(event.nativeEvent.layout.y);
+          }}
+        >
+          <Transactions />
+        </View>
       </View>
     </ScrollView>
   );

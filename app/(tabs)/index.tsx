@@ -12,6 +12,7 @@ import {
   PEOPLE,
   QUICK_ACTIONS,
 } from "@/constants/home-data";
+import { useRouter } from "expo-router";
 import React, { memo, useCallback } from "react";
 import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
@@ -22,6 +23,7 @@ import { useTheme } from "react-native-paper";
  */
 const HomeScreen = memo(function HomeScreen() {
   const theme = useTheme();
+  const router = useRouter();
 
   const handleQuickActionPress = useCallback(() => {},
   []);
@@ -95,6 +97,14 @@ const HomeScreen = memo(function HomeScreen() {
                 icon={item.icon}
                 title={item.title}
                 showChevron
+                onPress={() => {
+                  if (item.title === "See transaction history") {
+                    router.navigate({
+                      pathname: "/money",
+                      params: { scrollTo: "history" },
+                    });
+                  }
+                }}
               />
             ))}
           </View>
