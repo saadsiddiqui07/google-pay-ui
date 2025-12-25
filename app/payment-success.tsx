@@ -1,4 +1,4 @@
-import { Audio as ExpoAudio } from 'expo-av';
+import { useAudioPlayer } from 'expo-audio';
 import { useLocalSearchParams, useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import React, { useEffect, useRef } from "react";
@@ -16,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width: windowWidth } = Dimensions.get("window");
 
 export default function PaymentSuccessScreen() {
+  console.log('Screen rendered');
   const animation = useRef<LottieView>(null);
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -24,29 +25,11 @@ export default function PaymentSuccessScreen() {
   const amount = (params.amount as string) || "0";
   const name = (params.name as string) || "User";
 
+  const player = useAudioPlayer(require('../assets/sounds/success.mp3'));
+
   useEffect(() => {
-    let sound: ExpoAudio.Sound;
-
-    async function playSound() {
-      try {
-        const result = await ExpoAudio.Sound.createAsync(
-          require('../assets/sounds/success.mp3')
-        );
-        sound = result.sound;
-        await sound.playAsync();
-      } catch (error) {
-        console.log('Error playing sound:', error);
-      }
-    }
-
-    playSound();
-
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
-  }, []);
+    player.play();
+  }, [player]);
 
   // Shared values for animations
   const buttonOpacity = useSharedValue(0);
