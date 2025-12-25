@@ -34,9 +34,9 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
+      "dark": {
+        "backgroundColor": "#202124"
+      }
         }
       ],
       "expo-audio"

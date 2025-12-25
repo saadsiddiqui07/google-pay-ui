@@ -4,6 +4,12 @@ import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider, adaptNavigationTheme } from 'react-native-paper';
 import 'react-native-reanimated';
+import * as SplashScreen from 'expo-splash-screen';
+import React, { useState } from 'react';
+import CustomSplashScreen from '../components/CustomSplashScreen';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 // Define the custom Light Theme
 const gpayLightTheme = {
@@ -71,6 +77,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? gpayDarkTheme : gpayLightTheme;
   const navigationTheme = colorScheme === 'dark' ? DarkTheme : LightTheme;
+  const [isSplashFinished, setSplashFinished] = useState(false);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -85,6 +92,10 @@ export default function RootLayout() {
           </Stack>
         </NavigationThemeProvider>
       </PaperProvider>
+      
+      {!isSplashFinished && (
+        <CustomSplashScreen onFinish={() => setSplashFinished(true)} />
+      )}
     </GestureHandlerRootView>
   );
 }
