@@ -16,7 +16,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width: windowWidth } = Dimensions.get("window");
 
 export default function PaymentSuccessScreen() {
-  console.log('Screen rendered');
   const animation = useRef<LottieView>(null);
   const router = useRouter();
   const params = useLocalSearchParams();
