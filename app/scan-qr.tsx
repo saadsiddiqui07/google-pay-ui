@@ -15,7 +15,6 @@ export default function ScanQRScreen() {
   const theme = useTheme();
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
-  const [facing, setFacing] = useState<'back' | 'front'>('back');
   const [torch, setTorch] = useState(false);
   
   // Bottom sheet ref
@@ -61,7 +60,7 @@ export default function ScanQRScreen() {
       
       <CameraView 
         style={StyleSheet.absoluteFill} 
-        facing={facing}
+        facing={'back'}
         enableTorch={torch}
         onBarcodeScanned={({ data }) => {
             console.log("Scanned:", data);
