@@ -1,9 +1,10 @@
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import * as Haptics from 'expo-haptics';
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from 'expo-router';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,11 +17,31 @@ export default function ScanQRScreen() {
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
   const [torch, setTorch] = useState(false);
+  const [scanned, setScanned] = useState(false);
   
   // Bottom sheet ref
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['12%', '45%'], []);
 
+  const handleScan = useCallback(() => {
+    if (scanned) return;
+    setScanned(true);
+
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+
+    const names = ["Aarav Sharma", "Vivaan Gupta", "Aditya Patel", "Vihaan Singh", "Arjun Kumar", "Sai Iyer", "Reyansh Reddy", "Krishna Das", "Ishaan Joshi", "Shaurya Malhotra"];
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    
+    // Generate random 10 digit number formatted as +91 XXXXX XXXXX
+    const part1 = Math.floor(10000 + Math.random() * 90000);
+    const part2 = Math.floor(10000 + Math.random() * 90000);
+    const randomPhone = `+91 ${part1} ${part2}`;
+
+    router.push({ pathname: "/payment-input", params: { name: randomName, phone: randomPhone } });
+    
+    // Reset scanned state after a delay in case they come back
+    setTimeout(() => setScanned(false), 2000);
+  }, [scanned, router]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -33,7 +54,7 @@ export default function ScanQRScreen() {
 
     if (!result.canceled) {
       console.log(result.assets[0].uri);
-      // Handle QR scanning from image here if needed
+      handleScan();
     }
   };
 
@@ -64,7 +85,7 @@ export default function ScanQRScreen() {
         enableTorch={torch}
         onBarcodeScanned={({ data }) => {
             console.log("Scanned:", data);
-            // Handle scan result
+            handleScan();
         }}
       >
         <SafeAreaView style={styles.overlay}>

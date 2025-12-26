@@ -63,7 +63,7 @@ const PaymentInputScreen = memo(function PaymentInputScreen() {
 
   const name = (params.name as string) || "User";
   const image = params.image as string;
-  const phone = "+91 96228 35745";
+  const phone = (params.phone as string) || "+91 96228 35745";
 
   const [amount, setAmount] = useState("");
   const [selectedBank, setSelectedBank] = useState("1");
