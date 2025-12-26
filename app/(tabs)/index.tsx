@@ -25,11 +25,16 @@ const HomeScreen = memo(function HomeScreen() {
   const theme = useTheme();
   const router = useRouter();
 
-  const handleQuickActionPress = useCallback(() => {},
-  []);
+  const handleQuickActionPress = useCallback(
+    (icon: string) => {
+      if (icon === "qrcode-scan") {
+        router.push("/scan-qr");
+      }
+    },
+    [router]
+  );
 
-  const handleActionPillPress = useCallback(() => {},
-  []);
+  const handleActionPillPress = useCallback(() => {}, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -58,7 +63,7 @@ const HomeScreen = memo(function HomeScreen() {
                 icon={action.icon}
                 firstLineText={action.firstLineText}
                 secondLineText={action.secondLineText}
-                onPress={handleQuickActionPress}
+                onPress={() => handleQuickActionPress(action.icon)}
               />
             ))}
           </View>
