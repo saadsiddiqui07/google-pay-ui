@@ -5,12 +5,14 @@ import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from 'expo-router';
 import React, { useMemo, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');
 const SCAN_FRAME_SIZE = width * 0.7;
 
 export default function ScanQRScreen() {
+  const theme = useTheme();
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState<'back' | 'front'>('back');
@@ -108,35 +110,37 @@ export default function ScanQRScreen() {
         </SafeAreaView>
       </CameraView>
 
-       <BottomSheet
+      {/* Bottom Sheet */}
+      <BottomSheet
         ref={bottomSheetRef}
         snapPoints={snapPoints}
-        backgroundStyle={{ backgroundColor: '#1F1F1F' }}
-        handleIndicatorStyle={{ backgroundColor: '#fff' }}
+        backgroundStyle={{ backgroundColor: theme.colors.surface }}
+        handleIndicatorStyle={{ backgroundColor: theme.colors.onSurfaceVariant }}
       >
         <BottomSheetView style={styles.contentContainer}>
           <View style={styles.sheetHeader}>
-            <Text style={styles.sheetTitle}>Scan any QR code to pay</Text>
-            <Text style={styles.sheetSubtitle}>Google Pay • PhonePe • Paytm • UPI</Text>
+            <Text style={[styles.sheetTitle, { color: theme.colors.onSurface }]}>Scan any QR code to pay</Text>
+            <Text style={[styles.sheetSubtitle, { color: theme.colors.onSurfaceVariant }]}>Google Pay • PhonePe • Paytm • UPI</Text>
           </View>
           
           <View style={styles.expandedContent}>
-             <View style={styles.phoneIconContainer}>
-                <MaterialCommunityIcons name="cellphone-text" size={60} color="#fff" />
+             <View style={[styles.phoneIconContainer, { backgroundColor: theme.colors.surfaceVariant }]}>
+                <MaterialCommunityIcons name="cellphone-text" size={60} color={theme.colors.onSurfaceVariant} />
                 <View style={styles.qrOnPhone}>
                     <MaterialIcons name="qr-code" size={24} color="black" />
                 </View>
              </View>
-             <Text style={styles.expandedText}>Scan any QR code, not just Google Pay&apos;s</Text>
-             <Text style={styles.expandedSubText}>
-                 Position your phone to make sure the QR code is within the frame. <Text style={{textDecorationLine: 'underline', color: '#8AB4F8'}}>See all supported QR codes</Text>
+             <Text style={[styles.expandedText, { color: theme.colors.onSurface }]}>Scan any QR code, not just Google Pay&apos;s</Text>
+             <Text style={[styles.expandedSubText, { color: theme.colors.onSurfaceVariant }]}>
+                 Position your phone to make sure the QR code is within the frame. <Text style={{textDecorationLine: 'underline', color: theme.colors.primary}}>See all supported QR codes</Text>
              </Text>
              
              <View style={styles.logosContainer}>
-                 <Text style={styles.logoText}>BHIM</Text>
-                 <Text style={styles.logoText}>UPI</Text>
-                 <Text style={styles.logoText}>VISA</Text>
-                 <Text style={styles.logoText}>Mastercard</Text>
+                 {/* Placeholders for logos */}
+                 <Text style={[styles.logoText, { color: theme.colors.onSurface }]}>BHIM</Text>
+                 <Text style={[styles.logoText, { color: theme.colors.onSurface }]}>UPI</Text>
+                 <Text style={[styles.logoText, { color: theme.colors.onSurface }]}>VISA</Text>
+                 <Text style={[styles.logoText, { color: theme.colors.onSurface }]}>Mastercard</Text>
              </View>
           </View>
         </BottomSheetView>
